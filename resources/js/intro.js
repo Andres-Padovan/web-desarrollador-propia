@@ -121,7 +121,10 @@ export function startIntro() {
         fontSize = width >= 640 ? 9 : 7;
         const stepX = fontSize * 0.6;
         const stepY = fontSize * 0.92;
-        shapes = shapesText.map((shape, index) => (shape.image ? sampleImage(images[index], stepX, stepY) : sampleText(shape, stepX, stepY)));
+        // Si el logo no llegó a cargar (red lenta, bloqueado) se saltea y la intro sigue con el texto.
+        shapes = shapesText
+            .map((shape, index) => (shape.image ? images[index]?.naturalWidth && sampleImage(images[index], stepX, stepY) : sampleText(shape, stepX, stepY)))
+            .filter(Boolean);
 
         const count = Math.max(...shapes.map((shape) => shape.targets.length));
         const previous = particles;

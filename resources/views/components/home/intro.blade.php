@@ -3,7 +3,7 @@
 @php
     $words = explode(' ', mb_strtoupper(__('site.hero.title_b')));
     $shapes = [
-        ['image' => asset(config('profile.logo'))],
+        ['image' => '/'.config('profile.logo')],
         [['text' => mb_strtoupper(\Illuminate\Support\Str::before($profile['name'], ' ')), 'accent' => false], ['text' => mb_strtoupper(\Illuminate\Support\Str::after($profile['name'], ' ')), 'accent' => true]],
         [
             ['text' => mb_strtoupper(__('site.hero.title_a')), 'accent' => false],
