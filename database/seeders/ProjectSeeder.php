@@ -28,7 +28,7 @@ class ProjectSeeder extends Seeder
             'is_private' => true,
             'is_featured' => true,
             'is_visible' => true,
-            'sort' => 5,
+            'sort' => 6,
         ]);
 
         Project::updateOrCreate(['slug' => 'estudio-brillo'], [
@@ -60,6 +60,7 @@ class ProjectSeeder extends Seeder
             'stack' => ['Flutter', 'Supabase', 'Firebase', 'Mercado Pago', 'Laravel'],
             'status' => 'wip',
             'image' => 'images/proyectos/padel-mza.webp',
+            'video' => 'videos/proyectos/padel-mza.mp4',
             'accent' => '#c6f432',
             'language' => 'Dart',
             'is_private' => true,
@@ -104,6 +105,25 @@ class ProjectSeeder extends Seeder
             'is_featured' => true,
             'is_visible' => true,
             'sort' => 4,
+        ]);
+
+        Project::updateOrCreate(['slug' => 'laconsola-servicio-tecnico'], [
+            'title' => ['es' => 'La Consola · Servicio técnico', 'en' => 'La Consola · Repair tracking'],
+            'summary' => [
+                'es' => 'App instalable para el servicio técnico de La Consola: el cliente entra con su orden y DNI o con un link por WhatsApp, sigue el estado de su equipo y acepta o rechaza el presupuesto. Con panel interno para el local.',
+                'en' => 'Installable app for La Consola\'s repair shop: customers sign in with their order and ID number or a WhatsApp link, follow their device\'s status and accept or decline the quote. Includes an internal panel for the shop.',
+            ],
+            'category' => ['es' => 'Sistema web', 'en' => 'Web system'],
+            'stack' => ['Laravel', 'PWA', 'MySQL', 'WhatsApp'],
+            'status' => 'wip',
+            'image' => 'images/proyectos/laconsola-servicio-tecnico.webp',
+            'video' => 'videos/proyectos/laconsola-servicio-tecnico.mp4',
+            'accent' => '#ff7a1a',
+            'language' => 'PHP',
+            'is_private' => true,
+            'is_featured' => true,
+            'is_visible' => true,
+            'sort' => 5,
         ]);
     }
 }
