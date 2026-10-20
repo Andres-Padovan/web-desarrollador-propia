@@ -1,8 +1,8 @@
 /*
  * Intro: el nombre de Andrés armado con miles de caracteres de código.
- * Las partículas llegan desde todo el viewport y escriben "ANDRÉS PADOVAN"; después se
- * reacomodan en la propuesta ("Sistemas que trabajan por vos.") y van alternando hasta que
- * el visitante entra. Se apartan del mouse y explotan al entrar (scroll, clic, tecla o swipe).
+ * Las partículas llegan desde todo el viewport y arman el logo; después se reacomodan en
+ * "ANDRÉS PADOVAN" y en la propuesta ("Sistemas que trabajan por vos.") y van rotando hasta
+ * que el visitante entra. Se apartan del mouse y explotan al entrar (scroll, clic, tecla o swipe).
  */
 
 const CODE = '01<>/{}[];=+*#$&|~';
@@ -24,6 +24,7 @@ export function startIntro() {
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     const pointer = { x: -9999, y: -9999 };
     const shapesText = JSON.parse(root.dataset.shapes);
+    const images = [];
     let start = performance.now();
     let particles = [];
     let shapes = [];
@@ -64,27 +65,49 @@ export function startIntro() {
 
         const lineHeight = size * 0.98;
         const blockTop = height * (isWide ? 0.47 : 0.44) - (lineHeight * lines.length) / 2;
-        const lineColors = [];
         lines.forEach((line, index) => {
-            const y = blockTop + lineHeight * (index + 0.5);
             octx.fillStyle = line.accent ? colors.malbec : colors.fg;
-            octx.fillText(line.text, width / 2, y);
-            lineColors.push({ top: y - lineHeight / 2, bottom: y + lineHeight / 2, accent: line.accent });
+            octx.fillText(line.text, width / 2, blockTop + lineHeight * (index + 0.5));
         });
 
-        const data = octx.getImageData(0, 0, width, height).data;
+        return { ...gridTargets(off, stepX, stepY), top: blockTop, height: lineHeight * lines.length, canvas: off };
+    };
+
+    /* Dibuja el logo (SVG) centrado y lo muestrea igual que el texto. */
+    const sampleImage = (image, stepX, stepY) => {
+        const isWide = width >= 640;
+        const ratio = image.naturalWidth / image.naturalHeight || 1.8;
+        let boxHeight = height * (isWide ? 0.42 : 0.3);
+        let boxWidth = boxHeight * ratio;
+        if (boxWidth > width * 0.86) {
+            boxWidth = width * 0.86;
+            boxHeight = boxWidth / ratio;
+        }
+        const top = height * (isWide ? 0.47 : 0.44) - boxHeight / 2;
+        const off = document.createElement('canvas');
+        off.width = width;
+        off.height = height;
+        off.getContext('2d', { willReadFrequently: true }).drawImage(image, (width - boxWidth) / 2, top, boxWidth, boxHeight);
+
+        return { ...gridTargets(off, stepX, stepY), top, height: boxHeight, canvas: off };
+    };
+
+    /* Celdas de la grilla que caen dentro de lo dibujado, con el color de cada una (texto, malbec o sol). */
+    const gridTargets = (off, stepX, stepY) => {
+        const data = off.getContext('2d', { willReadFrequently: true }).getImageData(0, 0, width, height).data;
         const targets = [];
         for (let y = 0; y + stepY < height; y += stepY) {
             for (let x = 0; x + stepX < width; x += stepX) {
-                const alpha = data[(Math.floor(y + stepY / 2) * width + Math.floor(x + stepX / 2)) * 4 + 3];
-                if (alpha < 128) continue;
-                const line = lineColors.find((row) => y >= row.top && y < row.bottom);
-                targets.push({ x, y, accent: line?.accent ?? false });
+                const i = (Math.floor(y + stepY / 2) * width + Math.floor(x + stepX / 2)) * 4;
+                if (data[i + 3] < 128) continue;
+                const [r, g, b] = [data[i], data[i + 1], data[i + 2]];
+                const color = r > 200 && b < 150 && g > 140 ? 'sun' : r > 200 && g < 120 ? 'malbec' : 'fg';
+                targets.push({ x, y, color });
             }
         }
         targets.sort((a, b) => a.x + a.y * 0.15 - (b.x + b.y * 0.15));
 
-        return { targets, top: blockTop, height: lineHeight * lines.length, canvas: off };
+        return { targets };
     };
 
     const build = () => {
@@ -97,7 +120,7 @@ export function startIntro() {
         fontSize = width >= 640 ? 9 : 7;
         const stepX = fontSize * 0.6;
         const stepY = fontSize * 0.92;
-        shapes = shapesText.map((lines) => sampleText(lines, stepX, stepY));
+        shapes = shapesText.map((shape, index) => (shape.image ? sampleImage(images[index], stepX, stepY) : sampleText(shape, stepX, stepY)));
 
         const count = Math.max(...shapes.map((shape) => shape.targets.length));
         const previous = particles;
@@ -111,7 +134,7 @@ export function startIntro() {
                 glyph: DENSE[Math.floor(Math.random() * DENSE.length)],
                 base: null,
                 shade: 0.7 + Math.random() * 0.3,
-                spark: Math.random() < 0.035,
+                spark: Math.random() < 0.03,
                 delay: old ? 0 : 200 + Math.random() * 1100,
                 alpha: 0,
             };
@@ -129,7 +152,7 @@ export function startIntro() {
             const target = index < targets.length ? targets[index] : targets[Math.floor(Math.random() * targets.length)];
             p.tx = target.x;
             p.ty = target.y;
-            p.accent = target.accent;
+            p.color = target.color;
             p.spare = index >= targets.length;
             if (morph) {
                 p.vx += (Math.random() - 0.5) * 10;
@@ -193,10 +216,10 @@ export function startIntro() {
             if (Math.random() < 0.004 + settled * 0.05) p.glyph = CODE[Math.floor(Math.random() * CODE.length)];
             else if (p.glyph !== p.base && Math.random() < 0.06) p.glyph = p.base;
 
-            let color = arriving > 0.5 ? (p.spark ? 'sun' : p.accent ? 'malbec' : 'fg') : 'fg';
+            let color = arriving > 0.5 ? (p.spark && p.color === 'fg' ? 'sun' : p.color) : 'fg';
             const scanDistance = Math.abs(p.y - scanY);
             if (!leavingAt && !p.spare && scanDistance < 12) {
-                color = p.accent ? 'fg' : 'malbec';
+                color = p.color === 'fg' ? 'malbec' : 'fg';
                 p.alpha = Math.max(p.alpha, 1 - scanDistance / 12);
             }
 
@@ -306,6 +329,13 @@ export function startIntro() {
         frame = requestAnimationFrame(draw);
     };
 
-    // Las letras se dibujan con Unbounded: esperamos la fuente (con tope) antes de muestrear.
-    Promise.race([document.fonts.load('900 100px "Unbounded Variable"'), new Promise((resolve) => setTimeout(resolve, 1500))]).then(begin, begin);
+    // Las letras se dibujan con Unbounded y el logo es un SVG: esperamos ambos (con tope) antes de muestrear.
+    const loadImage = (url, index) =>
+        new Promise((resolve) => {
+            const image = new Image();
+            image.onload = image.onerror = () => resolve((images[index] = image));
+            image.src = url;
+        });
+    const ready = Promise.all([document.fonts.load('900 100px "Unbounded Variable"'), ...shapesText.map((shape, index) => shape.image && loadImage(shape.image, index))]);
+    Promise.race([ready, new Promise((resolve) => setTimeout(resolve, 1800))]).then(begin, begin);
 }

@@ -9,7 +9,7 @@
         <div class="grid gap-12 md:grid-cols-[1.4fr_1fr_1fr]">
             <div class="flex flex-col gap-4">
                 <a href="{{ $isEnglish ? route('home.en') : route('home') }}" class="flex items-center gap-2.5">
-                    <span class="grid size-9 place-items-center rounded-md bg-malbec font-display text-sm font-black text-ink">AP</span>
+                    <x-brand-logo class="h-8 w-auto text-fg" />
                     <span class="font-display text-lg font-bold uppercase">{{ $profile['name'] }}</span>
                 </a>
                 <p class="max-w-xs text-muted">{{ __('site.footer.tagline') }}</p>

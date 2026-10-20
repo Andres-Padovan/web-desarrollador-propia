@@ -20,6 +20,7 @@ return [
     'github' => 'https://github.com/Andres-Padovan',
     'github_user' => env('GITHUB_USER', 'Andres-Padovan'),
     'photo' => 'images/andres-padovan.webp',
+    'logo' => 'images/logo/marca-mendoza.svg',
     'available' => (bool) env('PROFILE_AVAILABLE', true),
     // Sitios que aparecen en la pantalla de la laptop en la escena con scroll (capturas largas en public/images/showreel).
     'showreel' => [

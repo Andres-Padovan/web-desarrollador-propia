@@ -29,6 +29,8 @@ class AdminPanelProvider extends PanelProvider
             ->login()
             ->brandName('Andrés Padovan · Panel')
             ->favicon(asset('favicon.svg'))
+            ->brandLogo(asset('images/logo/marca-mendoza.svg'))
+            ->brandLogoHeight('2rem')
             ->darkMode(isForced: true)
             ->colors([
                 'primary' => Color::hex('#ff3d7f'),
