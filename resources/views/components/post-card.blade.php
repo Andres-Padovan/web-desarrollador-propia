@@ -9,7 +9,7 @@
 ]) data-reveal data-delay="{{ ($index % 3) * 120 }}">
     <span class="spotlight-border"></span>
 
-    <div @class(['relative overflow-hidden border-b border-line bg-ink', 'aspect-[16/9]' => ! $featured, 'aspect-[16/9] lg:aspect-auto lg:border-r lg:border-b-0' => $featured])>
+    <div @class(['relative hidden overflow-hidden border-b border-line bg-ink sm:block', 'aspect-[16/9]' => ! $featured, 'aspect-[16/9] lg:aspect-auto lg:border-r lg:border-b-0' => $featured])>
         <div class="grid-bg absolute inset-0 opacity-60"></div>
         <div class="absolute inset-0" style="background: radial-gradient(circle at {{ ['20% 10%', '80% 0%', '50% 100%'][$index % 3] }}, color-mix(in oklab, var(--color-malbec) 28%, transparent), transparent 60%)"></div>
         <div class="absolute inset-x-6 top-6 bottom-0 rounded-t-lg border border-b-0 border-line bg-night/90 p-4 font-mono text-[11px] leading-relaxed transition duration-700 group-hover:-translate-y-1.5">
@@ -26,7 +26,7 @@
             <span class="text-dim">{{ $post->published_at->translatedFormat(__('site.blog.date_format')) }}</span>
             <span class="text-dim">{{ trans_choice('site.blog.minutes', $post->readingMinutes(), ['count' => $post->readingMinutes()]) }}</span>
         </div>
-        <h2 @class(['font-display font-bold tracking-tight uppercase', 'text-2xl sm:text-3xl' => $featured, 'text-xl' => ! $featured])>
+        <h2 @class(['font-display font-bold tracking-tight break-words uppercase', 'text-xl sm:text-3xl' => $featured, 'text-lg sm:text-xl' => ! $featured])>
             <a href="{{ $url }}" class="transition after:absolute after:inset-0 after:z-20 group-hover:text-malbec">{{ $post->localized('title') }}</a>
         </h2>
         <p class="flex-1 leading-relaxed text-muted">{{ $post->localized('excerpt') }}</p>

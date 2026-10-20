@@ -35,6 +35,27 @@ class HomePageTest extends TestCase
             ->assertDontSee('http://localhost/', false);
     }
 
+    public function test_tunnel_visitors_get_built_assets_while_the_dev_server_runs(): void
+    {
+        $hotFile = public_path('hot');
+        $hadHotFile = is_file($hotFile);
+        file_put_contents($hotFile, 'http://localhost:5173');
+
+        try {
+            $this->get(route('home'))->assertSee('localhost:5173', false);
+
+            $this->withHeaders(['X-Forwarded-Proto' => 'https', 'X-Forwarded-Host' => 'demo.trycloudflare.com'])
+                ->get(route('home'))
+                ->assertOk()
+                ->assertDontSee('localhost:5173', false)
+                ->assertSee('https://demo.trycloudflare.com/build/assets/', false);
+        } finally {
+            if (! $hadHotFile) {
+                unlink($hotFile);
+            }
+        }
+    }
+
     public function test_english_home_uses_english_copy_and_falls_back_to_spanish(): void
     {
         Project::factory()->create(['title' => ['es' => 'Solo en español', 'en' => '']]);

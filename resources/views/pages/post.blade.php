@@ -21,12 +21,12 @@
         <script type="application/ld+json">{!! json_encode($article, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG) !!}</script>
     @endpush
 
-    <article class="relative overflow-hidden pt-32 pb-24 sm:pt-40">
+    <article class="relative overflow-hidden pt-24 pb-24 sm:pt-40">
         <div class="grid-bg pointer-events-none absolute inset-x-0 top-0 h-[620px]"></div>
         <div class="pointer-events-none absolute -top-40 left-1/2 h-[480px] w-[820px] -translate-x-1/2 rounded-full bg-malbec/15 blur-[150px]"></div>
 
-        <div class="container-site relative flex flex-col gap-14">
-            <header class="mx-auto flex w-full max-w-3xl flex-col gap-7">
+        <div class="container-site relative flex flex-col gap-10 sm:gap-14">
+            <header class="mx-auto flex w-full max-w-3xl flex-col gap-5 sm:gap-7">
                 <a href="{{ \App\Support\LocalizedRoute::to('blog') }}" class="inline-flex items-center gap-2 self-start font-mono text-xs tracking-widest text-muted uppercase transition hover:gap-3 hover:text-malbec" data-reveal>
                     <x-heroicon-m-arrow-left class="size-4" /> {{ __('site.blog.back') }}
                 </a>
@@ -35,8 +35,8 @@
                     <time datetime="{{ $post->published_at->toDateString() }}" class="text-dim">{{ $post->published_at->translatedFormat(__('site.blog.date_format')) }}</time>
                     <span class="text-dim">{{ trans_choice('site.blog.minutes', $post->readingMinutes(), ['count' => $post->readingMinutes()]) }}</span>
                 </div>
-                <h1 class="font-display text-3xl leading-[1.02] font-black tracking-tight uppercase sm:text-5xl" data-reveal data-delay="100">{{ $title }}</h1>
-                <p class="text-xl leading-relaxed text-muted" data-reveal data-delay="150">{{ $post->localized('excerpt') }}</p>
+                <h1 class="font-display text-[1.65rem] leading-[1.05] font-black tracking-tight break-words uppercase hyphens-auto sm:text-5xl" data-reveal data-delay="100">{{ $title }}</h1>
+                <p class="text-lg leading-relaxed text-muted sm:text-xl" data-reveal data-delay="150">{{ $post->localized('excerpt') }}</p>
                 <div class="flex items-center gap-3 border-y border-line py-4" data-reveal data-delay="200">
                     <img src="{{ asset($profile['photo']) }}" alt="" class="size-10 rounded-full object-cover grayscale" width="40" height="40">
                     <div class="flex flex-col">
@@ -46,7 +46,7 @@
                 </div>
             </header>
 
-            <div class="prose-site mx-auto w-full max-w-3xl" data-reveal>
+            <div class="prose-site mx-auto w-full max-w-3xl">
                 {!! $post->bodyHtml() !!}
             </div>
 

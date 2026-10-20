@@ -294,7 +294,8 @@ const revealObserver = new IntersectionObserver(
             revealObserver.unobserve(entry.target);
         });
     },
-    { threshold: 0.15, rootMargin: '0px 0px -8% 0px' },
+    // Umbral 0: los bloques muy altos (como el texto de un artículo) también aparecen apenas asoman.
+    { threshold: 0, rootMargin: '0px 0px -12% 0px' },
 );
 
 introDone.then(() =>
