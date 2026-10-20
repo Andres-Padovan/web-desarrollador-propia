@@ -306,9 +306,7 @@ html.has-intro [data-intro] {
     transition: background-color 0.9s ease 0.15s;
 }
 
-.intro .eyebrow,
-.intro-word,
-.intro-name > p:last-child,
+.intro-name,
 .intro-hint {
     opacity: 0;
     transform: translateY(26px);
@@ -319,21 +317,11 @@ html.has-intro [data-intro] {
         filter 0.9s ease;
 }
 
-.intro.is-formed .eyebrow,
-.intro.is-formed .intro-word,
-.intro.is-formed .intro-name > p:last-child,
+.intro.is-formed .intro-name,
 .intro.is-formed .intro-hint {
     opacity: 1;
     transform: none;
     filter: none;
-}
-
-.intro.is-formed .intro-word:nth-child(2) {
-    transition-delay: 0.12s;
-}
-
-.intro.is-formed .intro-name > p:last-child {
-    transition-delay: 0.3s;
 }
 
 .intro.is-formed .intro-hint {

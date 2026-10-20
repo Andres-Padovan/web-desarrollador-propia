@@ -1,7 +1,19 @@
 @props(['profile'])
 
+@php
+    $words = explode(' ', mb_strtoupper(__('site.hero.title_b')));
+    $shapes = [
+        [['text' => mb_strtoupper(\Illuminate\Support\Str::before($profile['name'], ' ')), 'accent' => false], ['text' => mb_strtoupper(\Illuminate\Support\Str::after($profile['name'], ' ')), 'accent' => true]],
+        [
+            ['text' => mb_strtoupper(__('site.hero.title_a')), 'accent' => false],
+            ['text' => array_shift($words), 'accent' => true],
+            ['text' => implode(' ', $words), 'accent' => true],
+        ],
+    ];
+@endphp
+
 {{--
-    Entrada al abrir la web: miles de caracteres de código se juntan y arman el retrato,
+    Entrada al abrir la web: miles de caracteres de código se juntan y escriben el nombre,
     reaccionan al mouse y explotan al hacer scroll o clic. Una vez por visita (sessionStorage)
     y nunca con "reducir movimiento". Sin JS no se muestra.
 --}}
@@ -19,7 +31,7 @@
     })();
 </script>
 
-<div data-intro data-portrait="{{ asset('images/intro-portrait.png') }}" class="intro fixed inset-0 z-[90] overflow-hidden bg-ink" role="dialog" aria-label="{{ $profile['name'] }}">
+<div data-intro data-shapes='@json($shapes)' class="intro fixed inset-0 z-[90] overflow-hidden bg-ink" role="dialog" aria-label="{{ $profile['name'] }}">
     <canvas data-intro-canvas class="absolute inset-0 size-full"></canvas>
     <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_40%,rgba(9,9,13,0.85)_100%)]"></div>
 
@@ -28,14 +40,9 @@
         <button type="button" data-intro-skip class="pointer-events-auto cursor-pointer tracking-widest uppercase transition hover:text-malbec">{{ __('site.intro.skip') }} ⏎</button>
     </div>
 
-    <div data-intro-name class="intro-name pointer-events-none absolute inset-x-5 bottom-20 sm:inset-x-auto sm:right-[7vw] sm:bottom-auto sm:top-1/2 sm:max-w-[44vw] sm:-translate-y-1/2">
-        <p class="eyebrow mb-4">{{ __('site.hero.kicker') }}</p>
-        <h1 class="font-display text-[11vw] leading-[0.92] font-black tracking-tight uppercase sm:text-[5.6vw]">
-            <span class="intro-word block">{{ \Illuminate\Support\Str::before($profile['name'], ' ') }}</span>
-            <span class="intro-word block text-malbec">{{ \Illuminate\Support\Str::after($profile['name'], ' ') }}</span>
-        </h1>
-        <p class="mt-5 font-mono text-xs tracking-[0.2em] text-muted uppercase">{{ $profile['location'] }} · {{ $profile['years_experience'] }} {{ __('site.intro.years') }}</p>
-    </div>
+    <p data-intro-name class="intro-name pointer-events-none absolute inset-x-5 bottom-[16vh] text-center font-mono text-[11px] tracking-[0.25em] text-muted uppercase sm:bottom-[13vh] sm:text-xs">
+        <span class="text-malbec">{{ __('site.hero.kicker') }}</span> · {{ $profile['location'] }}
+    </p>
 
     <div class="pointer-events-none absolute bottom-5 left-5 hidden font-mono sm:block text-[11px] leading-relaxed text-muted sm:bottom-8 sm:left-8 sm:text-xs" data-intro-log
          data-lines='@json(__('site.intro.lines'))' data-ready="{{ __('site.intro.ready') }}"></div>
