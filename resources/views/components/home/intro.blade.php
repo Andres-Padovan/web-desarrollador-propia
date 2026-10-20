@@ -32,7 +32,7 @@
     })();
 </script>
 
-<div data-intro data-shapes='@json($shapes)' class="intro fixed inset-0 z-[90] overflow-hidden bg-ink" role="dialog" aria-label="{{ $profile['name'] }}">
+<div data-intro data-shapes='@json($shapes)' class="intro fixed inset-0 z-[90] touch-none overflow-hidden bg-ink" role="dialog" aria-label="{{ $profile['name'] }}">
     <canvas data-intro-canvas class="absolute inset-0 size-full"></canvas>
     <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_40%,rgba(9,9,13,0.85)_100%)]"></div>
 
@@ -48,8 +48,9 @@
     <div class="pointer-events-none absolute bottom-5 left-5 hidden font-mono sm:block text-[11px] leading-relaxed text-muted sm:bottom-8 sm:left-8 sm:text-xs" data-intro-log
          data-lines='@json(__('site.intro.lines'))' data-ready="{{ __('site.intro.ready') }}"></div>
 
-    <div data-intro-hint class="intro-hint pointer-events-none absolute right-5 bottom-5 flex items-center gap-3 font-mono text-[11px] tracking-[0.2em] text-fg uppercase sm:right-8 sm:bottom-8">
-        <span class="relative flex h-7 w-4.5 justify-center rounded-full border border-fg/50"><span class="mt-1.5 h-1.5 w-0.5 animate-bounce rounded-full bg-malbec"></span></span>
-        {{ __('site.intro.enter') }}
-    </div>
+    <button type="button" data-intro-hint data-intro-enter class="intro-hint absolute right-5 bottom-5 flex cursor-pointer items-center gap-3 font-mono text-[11px] tracking-[0.2em] text-fg uppercase pointer-coarse:inset-x-5 pointer-coarse:justify-center pointer-coarse:rounded-full pointer-coarse:border pointer-coarse:border-malbec/60 pointer-coarse:bg-ink/70 pointer-coarse:py-3 pointer-coarse:backdrop-blur sm:right-8 sm:bottom-8">
+        <span class="relative flex h-7 w-4.5 justify-center rounded-full border border-fg/50 pointer-coarse:hidden"><span class="mt-1.5 h-1.5 w-0.5 animate-bounce rounded-full bg-malbec"></span></span>
+        <span class="pointer-coarse:hidden">{{ __('site.intro.enter') }}</span>
+        <span class="hidden pointer-coarse:inline">{{ __('site.intro.enter_touch') }} ↓</span>
+    </button>
 </div>

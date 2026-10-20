@@ -154,6 +154,7 @@ return [
     'intro' => [
         'years' => 'años de experiencia',
         'enter' => 'Scrolleá o hacé clic para entrar',
+        'enter_touch' => 'Jugá con el dedo · tocá acá para entrar',
         'skip' => 'Saltar intro',
         'lines' => ['$ ssh andres@mendoza', '> cargando proyectos', '> compilando ideas'],
         'ready' => 'listo.',

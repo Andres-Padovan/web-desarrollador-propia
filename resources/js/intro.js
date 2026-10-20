@@ -2,7 +2,7 @@
  * Intro: el nombre de Andrés armado con miles de caracteres de código.
  * Las partículas llegan desde todo el viewport y arman el logo; después se reacomodan en
  * "ANDRÉS PADOVAN" y en la propuesta ("Sistemas que trabajan por vos.") y van rotando hasta
- * que el visitante entra. Se apartan del mouse y explotan al entrar (scroll, clic, tecla o swipe).
+ * que el visitante entra. Se apartan del mouse y explotan al entrar (scroll, clic, tecla, botón o deslizamiento rápido).
  */
 
 const CODE = '01<>/{}[];=+*#$&|~';
@@ -200,8 +200,9 @@ export function startIntro() {
                 const dx = p.x - pointer.x;
                 const dy = p.y - pointer.y;
                 const distance = Math.hypot(dx, dy);
-                if (distance < 120 && distance > 0.1) {
-                    const force = (1 - distance / 120) * 7;
+                const reach = lastPointerType === 'touch' ? 150 : 120;
+                if (distance < reach && distance > 0.1) {
+                    const force = (1 - distance / reach) * 7;
                     p.vx += (dx / distance) * force;
                     p.vy += (dy / distance) * force;
                 }
@@ -285,20 +286,32 @@ export function startIntro() {
         window.dispatchEvent(new CustomEvent('intro:done'));
     }
 
+    // Con el dedo se juega igual que con el mouse; para entrar está el botón o un deslizamiento rápido hacia arriba.
+    let lastPointerType = 'mouse';
     const onPointer = (event) => {
+        lastPointerType = event.pointerType;
         pointer.x = event.clientX;
         pointer.y = event.clientY;
     };
     const onPointerLeave = () => {
         pointer.x = pointer.y = -9999;
     };
+    const onPointerUp = (event) => {
+        if (event.pointerType === 'touch') onPointerLeave();
+    };
+    const onClick = (event) => {
+        if (event.target.closest('[data-intro-enter], [data-intro-skip]') || lastPointerType !== 'touch') leave();
+    };
     const onKey = (event) => {
         if (['Enter', ' ', 'Escape', 'ArrowDown', 'PageDown'].includes(event.key)) leave();
     };
-    let touchStartY = null;
-    const onTouchStart = (event) => (touchStartY = event.touches[0].clientY);
-    const onTouchMove = (event) => {
-        if (touchStartY !== null && Math.abs(event.touches[0].clientY - touchStartY) > 30) leave();
+    let touchStart = null;
+    const onTouchStart = (event) => (touchStart = { y: event.touches[0].clientY, at: performance.now() });
+    const onTouchEnd = (event) => {
+        if (!touchStart) return;
+        const flick = touchStart.y - event.changedTouches[0].clientY;
+        if (flick > 80 && performance.now() - touchStart.at < 300) leave();
+        touchStart = null;
     };
     let resizeTimer;
     const onResize = () => {
@@ -310,11 +323,14 @@ export function startIntro() {
         [window, 'wheel', leave, { passive: true }],
         [window, 'keydown', onKey],
         [window, 'resize', onResize],
+        [root, 'pointerdown', onPointer],
         [root, 'pointermove', onPointer],
         [root, 'pointerleave', onPointerLeave],
-        [root, 'click', leave],
+        [root, 'pointerup', onPointerUp],
+        [root, 'pointercancel', onPointerUp],
+        [root, 'click', onClick],
         [root, 'touchstart', onTouchStart, { passive: true }],
-        [root, 'touchmove', onTouchMove, { passive: true }],
+        [root, 'touchend', onTouchEnd, { passive: true }],
     ];
     listeners.forEach(([target, type, handler, options]) => target.addEventListener(type, handler, options));
     const removeListeners = () => listeners.forEach(([target, type, handler]) => target.removeEventListener(type, handler));
