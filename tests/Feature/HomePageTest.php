@@ -29,6 +29,15 @@ class HomePageTest extends TestCase
             ->assertSee('application/ld+json', false);
     }
 
+    public function test_links_use_https_host_when_served_through_a_tunnel(): void
+    {
+        $this->withHeaders(['X-Forwarded-Proto' => 'https', 'X-Forwarded-Host' => 'demo.trycloudflare.com'])
+            ->get(route('home'))
+            ->assertOk()
+            ->assertSee('https://demo.trycloudflare.com/', false)
+            ->assertDontSee('http://localhost/', false);
+    }
+
     public function test_english_home_uses_english_copy_and_falls_back_to_spanish(): void
     {
         Project::factory()->create(['title' => ['es' => 'Solo en español', 'en' => '']]);
