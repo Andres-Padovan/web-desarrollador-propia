@@ -1,7 +1,13 @@
 import { Livewire, Alpine } from '../../vendor/livewire/livewire/dist/livewire.esm';
+import { startIntro } from './intro';
 
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+/* Se resuelve cuando termina la intro (o enseguida si no hay intro en esta visita). */
+const introDone = new Promise((resolve) => {
+    if (!document.documentElement.classList.contains('has-intro')) return resolve();
+    window.addEventListener('intro:done', resolve, { once: true });
+});
 
 document.documentElement.classList.add('js');
 
@@ -24,6 +30,7 @@ Alpine.data('terminal', (config) => ({
             return;
         }
 
+        await introDone;
         await sleep(500);
         for (const step of config.sequence) {
             for (const char of step.cmd) {
@@ -221,10 +228,12 @@ const revealObserver = new IntersectionObserver(
     { threshold: 0.15, rootMargin: '0px 0px -8% 0px' },
 );
 
-document.querySelectorAll('[data-reveal]').forEach((element) => {
-    if (element.dataset.delay) element.style.setProperty('--delay', element.dataset.delay);
-    revealObserver.observe(element);
-});
+introDone.then(() =>
+    document.querySelectorAll('[data-reveal]').forEach((element) => {
+        if (element.dataset.delay) element.style.setProperty('--delay', element.dataset.delay);
+        revealObserver.observe(element);
+    }),
+);
 
 /* Reflector que sigue al puntero sobre tarjetas .spotlight */
 document.addEventListener('pointermove', (event) => {
@@ -278,3 +287,4 @@ window.addEventListener(
 onScroll();
 
 Livewire.start();
+startIntro();

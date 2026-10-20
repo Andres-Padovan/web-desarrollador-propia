@@ -253,6 +253,62 @@ html.js [data-reveal].is-visible {
     }
 }
 
+/* Intro: retrato de código al abrir la web (ver resources/js/intro.js). */
+[data-intro] {
+    display: none;
+}
+
+html.has-intro [data-intro] {
+    display: block;
+}
+
+.intro {
+    transition: background-color 0.9s ease 0.15s;
+}
+
+.intro .eyebrow,
+.intro-word,
+.intro-name > p:last-child,
+.intro-hint {
+    opacity: 0;
+    transform: translateY(26px);
+    filter: blur(8px);
+    transition:
+        opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+        filter 0.9s ease;
+}
+
+.intro.is-formed .eyebrow,
+.intro.is-formed .intro-word,
+.intro.is-formed .intro-name > p:last-child,
+.intro.is-formed .intro-hint {
+    opacity: 1;
+    transform: none;
+    filter: none;
+}
+
+.intro.is-formed .intro-word:nth-child(2) {
+    transition-delay: 0.12s;
+}
+
+.intro.is-formed .intro-name > p:last-child {
+    transition-delay: 0.3s;
+}
+
+.intro.is-formed .intro-hint {
+    transition-delay: 0.7s;
+}
+
+.intro.is-leaving {
+    background-color: transparent;
+}
+
+.intro.is-leaving > :not(canvas) {
+    opacity: 0 !important;
+    transition: opacity 0.35s ease !important;
+}
+
 [x-cloak] {
     display: none !important;
 }

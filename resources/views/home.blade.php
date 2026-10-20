@@ -4,6 +4,7 @@
 @endphp
 
 <x-layouts.app>
+    <x-home.intro :profile="$profile" />
     <x-home.header :whatsapp-url="$whatsappUrl" />
 
     <main>

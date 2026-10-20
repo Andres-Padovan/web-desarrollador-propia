@@ -151,4 +151,21 @@ return [
         'social' => 'Social',
     ],
     'whatsapp_message' => 'Hi Andrés, I saw your website and would like to tell you about a project.',
+    'intro' => [
+        'years' => 'years of experience',
+        'enter' => 'Scroll or click to enter',
+        'skip' => 'Skip intro',
+        'lines' => ['$ ssh andres@mendoza', '> loading projects', '> compiling ideas'],
+        'ready' => 'ready.',
+    ],
+
+    'showreel' => [
+        'eyebrow' => '// how I work',
+        'title' => 'From one line of code to a business online.',
+        'steps' => [
+            ['n' => '01', 'title' => 'Code', 'text' => 'Every line written to be fast, secure and easy to maintain.'],
+            ['n' => '02', 'title' => 'Design', 'text' => 'Clear interfaces that look great on phones and desktops.'],
+            ['n' => '03', 'title' => 'In production', 'text' => 'Real websites and systems, used every day by real customers.'],
+        ],
+    ],
 ];

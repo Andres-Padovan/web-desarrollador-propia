@@ -21,5 +21,11 @@ return [
     'github_user' => env('GITHUB_USER', 'Andres-Padovan'),
     'photo' => 'images/andres-padovan.webp',
     'available' => (bool) env('PROFILE_AVAILABLE', true),
+    // Sitios que aparecen en la pantalla de la laptop en la escena con scroll (capturas largas en public/images/showreel).
+    'showreel' => [
+        ['title' => 'Toldos y Velas Pro', 'image' => 'images/showreel/toldos-y-velas-pro.webp'],
+        ['title' => 'Vanderperr Autos', 'image' => 'images/showreel/vanderperr-autos.webp'],
+        ['title' => 'Estudio Brillo', 'image' => 'images/showreel/estudio-brillo.webp'],
+    ],
     'stack' => ['Laravel', 'PHP', 'Filament', 'Livewire', 'Tailwind', 'JavaScript', 'Vue', 'MySQL', 'PostgreSQL', 'Git', 'Linux', 'APIs REST', 'Docker', 'IA'],
 ];
