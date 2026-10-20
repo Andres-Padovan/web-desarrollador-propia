@@ -28,7 +28,7 @@ class ProjectSeeder extends Seeder
             'is_private' => true,
             'is_featured' => true,
             'is_visible' => true,
-            'sort' => 6,
+            'sort' => 7,
         ]);
 
         Project::updateOrCreate(['slug' => 'estudio-brillo'], [
@@ -118,6 +118,25 @@ class ProjectSeeder extends Seeder
             'status' => 'wip',
             'image' => 'images/proyectos/laconsola-servicio-tecnico.webp',
             'video' => 'videos/proyectos/laconsola-servicio-tecnico.mp4',
+            'accent' => '#ff7a1a',
+            'language' => 'PHP',
+            'is_private' => true,
+            'is_featured' => true,
+            'is_visible' => true,
+            'sort' => 6,
+        ]);
+
+        Project::updateOrCreate(['slug' => 'laconsola-ecommerce'], [
+            'title' => ['es' => 'La Consola · Tienda gamer', 'en' => 'La Consola · Gaming store'],
+            'summary' => [
+                'es' => 'Tienda online de PC gamer, consolas y periféricos en San Martín: catálogo por categoría, PCs armadas y a medida, ofertas, carrito, cuotas con Mercado Pago y consultas por WhatsApp.',
+                'en' => 'Online store for gaming PCs, consoles and peripherals in San Martín: catalog by category, prebuilt and custom PCs, deals, cart, Mercado Pago installments and WhatsApp inquiries.',
+            ],
+            'category' => ['es' => 'E-commerce', 'en' => 'E-commerce'],
+            'stack' => ['Laravel', 'Livewire', 'Tailwind', 'Mercado Pago'],
+            'status' => 'wip',
+            'image' => 'images/proyectos/laconsola-ecommerce.webp',
+            'video' => 'videos/proyectos/laconsola-ecommerce.mp4',
             'accent' => '#ff7a1a',
             'language' => 'PHP',
             'is_private' => true,
