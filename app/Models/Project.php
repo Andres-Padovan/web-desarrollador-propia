@@ -43,7 +43,11 @@ class Project extends Model
 
     public function imageUrl(): ?string
     {
-        return $this->image ? Storage::disk('public')->url($this->image) : null;
+        if (! $this->image) {
+            return null;
+        }
+
+        return str_starts_with($this->image, 'images/') ? asset($this->image) : Storage::disk('public')->url($this->image);
     }
 
     /** The first public link worth sending a visitor to. */

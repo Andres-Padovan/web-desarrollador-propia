@@ -28,7 +28,61 @@ class ProjectSeeder extends Seeder
             'is_private' => true,
             'is_featured' => true,
             'is_visible' => true,
-            'sort' => 0,
+            'sort' => 4,
+        ]);
+
+        Project::updateOrCreate(['slug' => 'estudio-brillo'], [
+            'title' => ['es' => 'Estudio Brillo', 'en' => 'Estudio Brillo'],
+            'summary' => [
+                'es' => 'Sitio para un estudio de maquillaje y peinado de San Martín: portfolio de trabajos, paquetes para novias y quinceañeras, y reservas por WhatsApp.',
+                'en' => 'Website for a makeup and hairstyling studio in San Martín: work portfolio, bridal and quinceañera packages, and WhatsApp bookings.',
+            ],
+            'category' => ['es' => 'Sitio web', 'en' => 'Website'],
+            'stack' => ['Tailwind', 'Alpine.js', 'WhatsApp'],
+            'status' => 'live',
+            'live_url' => 'https://estudiobrillo.com',
+            'image' => 'images/proyectos/estudio-brillo.webp',
+            'accent' => '#e8a7b8',
+            'is_private' => true,
+            'is_featured' => true,
+            'is_visible' => true,
+            'sort' => 1,
+        ]);
+
+        Project::updateOrCreate(['slug' => 'toldos-y-velas-pro'], [
+            'title' => ['es' => 'Toldos y Velas Pro', 'en' => 'Toldos y Velas Pro'],
+            'summary' => [
+                'es' => 'Tienda online para un fabricante de velas sombreadoras, cierres de terraza y malla raschel: catálogo, carrito, cotizador y envíos a todo Chile.',
+                'en' => 'Online store for a maker of shade sails, terrace enclosures and shade netting: catalog, cart, quote builder and shipping across Chile.',
+            ],
+            'category' => ['es' => 'E-commerce', 'en' => 'E-commerce'],
+            'stack' => ['Laravel', 'Livewire', 'Tailwind'],
+            'status' => 'wip',
+            'image' => 'images/proyectos/toldos-y-velas-pro.webp',
+            'accent' => '#2f5fd0',
+            'language' => 'PHP',
+            'is_private' => true,
+            'is_featured' => true,
+            'is_visible' => true,
+            'sort' => 2,
+        ]);
+
+        Project::updateOrCreate(['slug' => 'vanderperr-autos'], [
+            'title' => ['es' => 'Vanderperr Autos', 'en' => 'Vanderperr Autos'],
+            'summary' => [
+                'es' => 'Web para una agencia de compra y venta de autos: buscador por condición, tipo y marca, stock de usados y 0 km, financiación y cotización del usado.',
+                'en' => 'Website for a car dealership: search by condition, type and brand, used and new stock, financing and trade-in quotes.',
+            ],
+            'category' => ['es' => 'Sitio web', 'en' => 'Website'],
+            'stack' => ['Laravel', 'Livewire', 'Tailwind'],
+            'status' => 'wip',
+            'image' => 'images/proyectos/vanderperr-autos.webp',
+            'accent' => '#1e9be0',
+            'language' => 'PHP',
+            'is_private' => true,
+            'is_featured' => true,
+            'is_visible' => true,
+            'sort' => 3,
         ]);
     }
 }
