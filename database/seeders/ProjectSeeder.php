@@ -28,7 +28,7 @@ class ProjectSeeder extends Seeder
             'is_private' => true,
             'is_featured' => true,
             'is_visible' => true,
-            'sort' => 4,
+            'sort' => 5,
         ]);
 
         Project::updateOrCreate(['slug' => 'estudio-brillo'], [
@@ -49,6 +49,24 @@ class ProjectSeeder extends Seeder
             'sort' => 1,
         ]);
 
+        Project::updateOrCreate(['slug' => 'padel-mza'], [
+            'title' => ['es' => 'PádelMza', 'en' => 'PádelMza'],
+            'summary' => [
+                'es' => 'App para armar partidos de pádel en Mendoza: partidos por categoría con lista de espera, turnos libres con seña por Mercado Pago, clases, chat, notificaciones y ranking.',
+                'en' => 'App to set up padel matches in Mendoza: matches by skill level with a waitlist, open court slots with a Mercado Pago deposit, lessons, chat, push notifications and rankings.',
+            ],
+            'category' => ['es' => 'App móvil', 'en' => 'Mobile app'],
+            'stack' => ['Flutter', 'Supabase', 'Firebase', 'Mercado Pago', 'Laravel'],
+            'status' => 'wip',
+            'image' => 'images/proyectos/padel-mza.webp',
+            'accent' => '#c6f432',
+            'language' => 'Dart',
+            'is_private' => true,
+            'is_featured' => true,
+            'is_visible' => true,
+            'sort' => 2,
+        ]);
+
         Project::updateOrCreate(['slug' => 'toldos-y-velas-pro'], [
             'title' => ['es' => 'Toldos y Velas Pro', 'en' => 'Toldos y Velas Pro'],
             'summary' => [
@@ -64,7 +82,7 @@ class ProjectSeeder extends Seeder
             'is_private' => true,
             'is_featured' => true,
             'is_visible' => true,
-            'sort' => 2,
+            'sort' => 3,
         ]);
 
         Project::updateOrCreate(['slug' => 'vanderperr-autos'], [
@@ -82,7 +100,7 @@ class ProjectSeeder extends Seeder
             'is_private' => true,
             'is_featured' => true,
             'is_visible' => true,
-            'sort' => 3,
+            'sort' => 4,
         ]);
     }
 }
