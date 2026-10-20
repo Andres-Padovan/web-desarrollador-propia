@@ -1,0 +1,258 @@
+@import 'tailwindcss';
+@import '@fontsource-variable/unbounded';
+@import '@fontsource-variable/geist';
+@import '@fontsource-variable/jetbrains-mono';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+
+/*
+ * Identidad: noche mendocina + Malbec. Fondo grafito con sesgo violeta, un acento malbec eléctrico
+ * y un ámbar "sol de Mendoza" reservado para estados y detalles. Unbounded para titulares,
+ * Geist para lectura y JetBrains Mono para todo lo que suena a terminal.
+ */
+@theme {
+    --font-display: 'Unbounded Variable', 'Arial Black', system-ui, sans-serif;
+    --font-sans: 'Geist Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --font-mono: 'JetBrains Mono Variable', ui-monospace, SFMono-Regular, Consolas, monospace;
+
+    --color-ink: #09090d;
+    --color-night: #0f0f16;
+    --color-panel: #15151e;
+    --color-panel-2: #1b1b26;
+    --color-line: #26263a;
+    --color-fg: #f3f1f7;
+    --color-muted: #a19eb3;
+    --color-dim: #6c6981;
+    --color-malbec: #ff3d7f;
+    --color-malbec-soft: #ff7aa8;
+    --color-malbec-deep: #7a1240;
+    --color-sun: #ffb43e;
+    --color-leaf: #4ade80;
+
+    --animate-marquee: marquee 38s linear infinite;
+    --animate-blink: blink 1.05s steps(1) infinite;
+    --animate-float: float 7s ease-in-out infinite;
+    --animate-ping-slow: ping 2.4s cubic-bezier(0, 0, 0.2, 1) infinite;
+
+    @keyframes marquee {
+        to {
+            transform: translateX(-50%);
+        }
+    }
+    @keyframes blink {
+        50% {
+            opacity: 0;
+        }
+    }
+    @keyframes float {
+        50% {
+            transform: translateY(-14px);
+        }
+    }
+}
+
+@layer base {
+    html {
+        scroll-behavior: smooth;
+        scroll-padding-top: 6rem;
+        color-scheme: dark;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+        @apply bg-ink font-sans text-fg antialiased;
+        text-rendering: optimizeLegibility;
+    }
+
+    ::selection {
+        background: var(--color-malbec);
+        color: var(--color-ink);
+    }
+
+    h1,
+    h2,
+    h3 {
+        text-wrap: balance;
+    }
+
+    :focus-visible {
+        outline: 2px solid var(--color-malbec);
+        outline-offset: 3px;
+    }
+}
+
+@layer components {
+    .container-site {
+        @apply mx-auto w-full max-w-7xl px-5 sm:px-8;
+    }
+
+    .eyebrow {
+        @apply inline-flex items-center gap-3 font-mono text-[11px] font-semibold tracking-[0.28em] text-malbec uppercase;
+    }
+
+    .eyebrow::before {
+        content: '';
+        @apply h-px w-6 bg-malbec/70;
+    }
+
+    .section-title {
+        @apply font-display text-[2rem] leading-[1.02] font-bold tracking-tight uppercase sm:text-5xl lg:text-[3.4rem];
+    }
+
+    .btn {
+        @apply relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-md px-6 py-3.5 font-mono text-[13px] font-semibold tracking-wider uppercase transition duration-300;
+    }
+
+    .btn-primary {
+        @apply bg-malbec text-ink shadow-[0_0_0_0_rgba(255,61,127,0.5)] hover:shadow-[0_10px_40px_-8px_rgba(255,61,127,0.65)];
+    }
+
+    .btn-primary::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, 0.45) 50%, transparent 70%);
+        transform: translateX(-120%);
+        transition: transform 0.7s ease;
+    }
+
+    .btn-primary:hover::after {
+        transform: translateX(120%);
+    }
+
+    .btn-ghost {
+        @apply border border-line text-fg hover:border-malbec/70 hover:text-malbec;
+    }
+
+    .chip {
+        @apply inline-flex items-center rounded-sm border border-line px-2 py-1 font-mono text-[10px] tracking-[0.18em] text-muted uppercase;
+    }
+
+    /* Tarjeta con reflector que sigue al puntero (variables --mx/--my desde JS). */
+    .spotlight {
+        position: relative;
+        isolation: isolate;
+    }
+
+    .spotlight::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        border-radius: inherit;
+        opacity: 0;
+        transition: opacity 0.4s ease;
+        background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), rgba(255, 61, 127, 0.14), transparent 60%);
+    }
+
+    .spotlight:hover::before {
+        opacity: 1;
+    }
+
+    .spotlight-border {
+        position: absolute;
+        inset: -1px;
+        border-radius: inherit;
+        pointer-events: none;
+        padding: 1px;
+        background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), rgba(255, 61, 127, 0.9), transparent 70%);
+        -webkit-mask:
+            linear-gradient(#000 0 0) content-box,
+            linear-gradient(#000 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+        opacity: 0;
+        transition: opacity 0.4s ease;
+    }
+
+    .spotlight:hover .spotlight-border {
+        opacity: 1;
+    }
+
+    .grid-bg {
+        background-image:
+            linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+        background-size: 56px 56px;
+        mask-image: radial-gradient(ellipse 80% 70% at 50% 30%, #000 40%, transparent 100%);
+    }
+
+    .noise::after {
+        content: '';
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 60;
+        opacity: 0.05;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    /* Palabras del manifiesto: se encienden según el avance del scroll. */
+    .word {
+        color: var(--color-line);
+        transition: color 0.35s ease;
+    }
+
+    .word.is-lit {
+        color: var(--color-fg);
+    }
+
+    .word.is-lit.is-accent {
+        color: var(--color-malbec);
+    }
+
+    .highlight-sweep {
+        color: var(--color-line);
+        background: linear-gradient(var(--color-malbec), var(--color-malbec)) no-repeat 0 88% / 0 0;
+        transition:
+            color 0.35s ease,
+            background-size 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .highlight-sweep.is-lit {
+        color: var(--color-fg);
+        background-size: 100% 28%;
+    }
+}
+
+/* Aparición al hacer scroll. Solo se oculta cuando hay JS, así sin JS todo queda visible. */
+html.js [data-reveal] {
+    opacity: 0;
+    transform: translateY(28px);
+    filter: blur(6px);
+    transition:
+        opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+        filter 0.8s ease;
+    transition-delay: calc(var(--delay, 0) * 1ms);
+}
+
+html.js [data-reveal].is-visible {
+    opacity: 1;
+    transform: none;
+    filter: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    html.js [data-reveal] {
+        opacity: 1;
+        transform: none;
+        filter: none;
+        transition: none;
+    }
+
+    .animate-marquee,
+    .animate-float,
+    .animate-ping-slow {
+        animation: none !important;
+    }
+}
+
+[x-cloak] {
+    display: none !important;
+}
