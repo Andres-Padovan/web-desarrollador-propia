@@ -234,8 +234,10 @@ Alpine.data('aboutCode', () => ({
     running: false,
 
     init() {
-        this.blocks = [...this.$el.querySelectorAll('[data-code-block]')].map((block) => [...block.querySelectorAll('.code-line')]);
+        this.blockElements = [...this.$el.querySelectorAll('[data-code-block]')];
+        this.blocks = this.blockElements.map((block) => [...block.querySelectorAll('.code-line')]);
         if (prefersReducedMotion) {
+            this.blockElements.forEach((block) => block.classList.add('is-open'));
             this.blocks.flat().forEach((line) => line.classList.add('is-done'));
             return;
         }
@@ -262,6 +264,7 @@ Alpine.data('aboutCode', () => ({
         this.running = true;
         while (this.written < this.target) {
             this.written++;
+            this.blockElements[this.written].classList.add('is-open');
             for (const line of this.blocks[this.written]) await this.type(line);
         }
         this.running = false;

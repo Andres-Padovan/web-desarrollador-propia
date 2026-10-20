@@ -24,9 +24,9 @@
     --color-fg: #f3f1f7;
     --color-muted: #a19eb3;
     --color-dim: #6c6981;
-    --color-malbec: #b57bff;
-    --color-malbec-soft: #d4b0ff;
-    --color-malbec-deep: #4b1f7a;
+    --color-malbec: #d43cff;
+    --color-malbec-soft: #e895ff;
+    --color-malbec-deep: #5e1180;
     --color-sun: #ffb43e;
     --color-leaf: #4ade80;
 
@@ -417,6 +417,15 @@ html.has-intro [data-intro] {
         opacity: 1;
         transform: none;
     }
+}
+
+/* Los bloques aparecen recién cuando empiezan a escribirse, así el editor crece con el código. */
+html.js .about-code [data-code-block]:not(.is-open) {
+    display: none;
+}
+
+.about-code:has(.is-typing) .about-code-idle {
+    display: none;
 }
 
 html.js .about-code .code-line {

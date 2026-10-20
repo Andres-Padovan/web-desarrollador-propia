@@ -33,7 +33,7 @@ class AdminPanelProvider extends PanelProvider
             ->brandLogoHeight('2rem')
             ->darkMode(isForced: true)
             ->colors([
-                'primary' => Color::hex('#b57bff'),
+                'primary' => Color::hex('#d43cff'),
                 'gray' => Color::Zinc,
             ])
             ->font('Geist')
