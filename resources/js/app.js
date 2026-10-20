@@ -80,9 +80,14 @@ Alpine.data('terminal', (config) => ({
             say(`${config.messages.opening} ${label}…`);
             setTimeout(() => window.open(url, '_blank', 'noopener'), 450);
         };
-        const scrollTo = (id, text) => {
+        // Si la sección está en esta página baja hasta ella; si no, abre su página.
+        const scrollTo = (id, text, page) => {
             say(text);
-            setTimeout(() => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' }), 350);
+            setTimeout(() => {
+                const section = document.getElementById(id);
+                if (section) section.scrollIntoView({ behavior: 'smooth' });
+                else if (page) window.location.href = config.links[page];
+            }, 350);
         };
 
         const commands = {
@@ -90,10 +95,12 @@ Alpine.data('terminal', (config) => ({
             ayuda: () => say(config.messages.help),
             sobre: () => say(config.messages.about),
             about: () => say(config.messages.about),
-            servicios: () => scrollTo('servicios', config.messages.services),
-            services: () => scrollTo('servicios', config.messages.services),
-            proyectos: () => scrollTo('proyectos', '→ ./proyectos'),
-            projects: () => scrollTo('proyectos', '→ ./projects'),
+            servicios: () => scrollTo('servicios', config.messages.services, 'services'),
+            services: () => scrollTo('servicios', config.messages.services, 'services'),
+            proyectos: () => scrollTo('proyectos', '→ ./proyectos', 'projects'),
+            projects: () => scrollTo('proyectos', '→ ./projects', 'projects'),
+            proceso: () => scrollTo('proceso', '→ ./proceso', 'process'),
+            process: () => scrollTo('proceso', '→ ./process', 'process'),
             contacto: () => scrollTo('contacto', config.messages.contact),
             contact: () => scrollTo('contacto', config.messages.contact),
             whatsapp: () => go(config.links.whatsapp, 'WhatsApp'),

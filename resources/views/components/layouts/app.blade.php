@@ -1,9 +1,12 @@
+@props(['title' => null, 'description' => null])
+
 @php
     $locale = app()->getLocale();
     $profile = config('profile');
     $title = $title ?? __('site.meta.title');
     $description = $description ?? __('site.meta.description');
-    $canonical = $locale === 'en' ? route('home.en') : route('home');
+    $canonical = url()->current();
+    $alternates = ['es' => \App\Support\LocalizedRoute::alternate('es'), 'en' => \App\Support\LocalizedRoute::alternate('en')];
     $ogImage = asset('images/og-andres-padovan.jpg');
     $person = [
         '@context' => 'https://schema.org',
@@ -29,9 +32,9 @@
     <meta name="description" content="{{ $description }}">
     <meta name="theme-color" content="#09090d">
     <link rel="canonical" href="{{ $canonical }}">
-    <link rel="alternate" hreflang="es" href="{{ route('home') }}">
-    <link rel="alternate" hreflang="en" href="{{ route('home.en') }}">
-    <link rel="alternate" hreflang="x-default" href="{{ route('home') }}">
+    <link rel="alternate" hreflang="es" href="{{ $alternates['es'] }}">
+    <link rel="alternate" hreflang="en" href="{{ $alternates['en'] }}">
+    <link rel="alternate" hreflang="x-default" href="{{ $alternates['es'] }}">
     <link rel="icon" href="{{ asset('favicon.svg') }}" type="image/svg+xml">
 
     <meta property="og:type" content="website">

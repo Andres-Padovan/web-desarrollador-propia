@@ -82,6 +82,15 @@ return [
         'empty_title' => 'This section is on its way',
         'empty_text' => 'Meanwhile, check my GitHub activity or ask me for examples on WhatsApp.',
         'github' => 'View GitHub',
+        'view_all' => 'See all :count projects',
+        'details' => 'View project',
+        'back' => 'All projects',
+        'all_projects' => 'See all',
+        'more_a' => 'More',
+        'more_b' => 'projects.',
+        'stack_label' => 'Technologies',
+        'want_one' => 'I want something like this',
+        'private_note' => 'Private code under client agreement',
         'status' => ['live' => 'Live', 'beta' => 'Beta', 'wip' => 'In progress', 'archived' => 'Archived'],
     ],
     'process' => [
@@ -149,6 +158,22 @@ return [
         'made' => 'Built with Laravel, Filament and plenty of coffee in Mendoza.',
         'nav' => 'Navigation',
         'social' => 'Social',
+    ],
+    'explore' => [
+        'eyebrow' => 'more',
+        'title_a' => 'Explore',
+        'title_b' => 'the rest.',
+        'items' => [
+            'services' => 'Websites, management systems, integrations and automations: what I do and the tools I use.',
+            'process' => 'From the first call to production: how I work so you always know where your project stands.',
+            'about' => 'Who I am, my background and how I work from San Martín, Mendoza, for anywhere.',
+        ],
+    ],
+    'pages' => [
+        'projects' => ['title' => 'Projects · Andrés Padovan', 'description' => 'Websites, online stores, apps and management systems I built for clients in Mendoza and beyond, each with a video tour.'],
+        'services' => ['title' => 'Services · Andrés Padovan', 'description' => 'Custom web development, management systems, integrations and automations with Laravel. From analysis to production.'],
+        'process' => ['title' => 'How I work · Andrés Padovan', 'description' => 'I listen, analyze, build in short iterations and stay around after launch. That is how I run every project.'],
+        'about' => ['title' => 'About me · Andrés Padovan', 'description' => 'Systems analyst and developer in San Martín, Mendoza, with 7 years of experience in custom software.'],
     ],
     'whatsapp_message' => 'Hi Andrés, I saw your website and would like to tell you about a project.',
     'intro' => [

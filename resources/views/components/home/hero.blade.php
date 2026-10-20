@@ -21,6 +21,9 @@
             'linkedin' => $profile['linkedin'],
             'en' => route('home.en'),
             'es' => route('home'),
+            'services' => \App\Support\LocalizedRoute::to('services'),
+            'projects' => \App\Support\LocalizedRoute::to('projects'),
+            'process' => \App\Support\LocalizedRoute::to('process'),
         ],
     ];
     $prompt = $profile['handle'].'@mendoza';
@@ -51,7 +54,7 @@
                 <p class="max-w-xl text-lg leading-relaxed text-muted">{{ __('site.hero.lead') }}</p>
                 <div class="flex flex-wrap gap-3">
                     <a href="#contacto" class="btn btn-primary">{{ __('site.hero.cta_primary') }} <x-heroicon-m-arrow-right class="size-4" /></a>
-                    <a href="#proyectos" class="btn btn-ghost">{{ __('site.hero.cta_secondary') }}</a>
+                    <a href="{{ \App\Support\LocalizedRoute::to('projects') }}" class="btn btn-ghost">{{ __('site.hero.cta_secondary') }}</a>
                 </div>
                 <div class="flex items-center gap-5 text-muted">
                     <a href="{{ $profile['github'] }}" target="_blank" rel="noopener" class="transition hover:text-malbec" aria-label="GitHub"><x-brand-icon name="github" /></a>

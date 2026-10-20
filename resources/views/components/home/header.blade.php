@@ -2,12 +2,12 @@
 
 @php
     $isEnglish = app()->getLocale() === 'en';
-    $links = [
-        '#servicios' => __('site.nav.services'),
-        '#proyectos' => __('site.nav.projects'),
-        '#proceso' => __('site.nav.process'),
-        '#sobre-mi' => __('site.nav.about'),
-    ];
+    $links = collect(['services', 'projects', 'process', 'about'])->map(fn (string $page) => [
+        'href' => \App\Support\LocalizedRoute::to($page),
+        'label' => __('site.nav.'.$page),
+        'active' => \App\Support\LocalizedRoute::is($page) || ($page === 'projects' && \App\Support\LocalizedRoute::is('project')),
+    ]);
+    $switchUrl = \App\Support\LocalizedRoute::alternate();
 @endphp
 
 <header x-data="{ scrolled: false, open: false }"
@@ -25,13 +25,15 @@
             </a>
 
             <div class="hidden items-center gap-8 lg:flex">
-                @foreach ($links as $href => $label)
-                    <a href="{{ $href }}" class="font-mono text-[13px] text-muted transition hover:text-fg">{{ $label }}</a>
+                @foreach ($links as $link)
+                    <a href="{{ $link['href'] }}" @class(['font-mono text-[13px] transition hover:text-fg', 'text-fg' => $link['active'], 'text-muted' => ! $link['active']]) @if ($link['active']) aria-current="page" @endif>
+                        @if ($link['active'])<span class="text-malbec">/</span>@endif{{ $link['label'] }}
+                    </a>
                 @endforeach
             </div>
 
             <div class="hidden items-center gap-4 lg:flex">
-                <a href="{{ $isEnglish ? route('home') : route('home.en') }}" class="font-mono text-[12px] tracking-widest text-muted uppercase transition hover:text-malbec" hreflang="{{ $isEnglish ? 'es' : 'en' }}">
+                <a href="{{ $switchUrl }}" class="font-mono text-[12px] tracking-widest text-muted uppercase transition hover:text-malbec" hreflang="{{ $isEnglish ? 'es' : 'en' }}">
                     {{ $isEnglish ? 'ES' : 'EN' }}
                 </a>
                 <a href="#contacto" class="btn btn-primary !px-4 !py-2.5">{{ __('site.nav.contact') }}</a>
@@ -46,11 +48,11 @@
         <div x-show="open" x-cloak x-transition.opacity.duration.300ms @click.outside="open = false"
              class="mx-3 mt-2 rounded-2xl border border-line bg-night/95 p-6 backdrop-blur-xl lg:hidden">
             <div class="flex flex-col gap-5">
-                @foreach ($links as $href => $label)
-                    <a href="{{ $href }}" @click="open = false" class="font-display text-xl uppercase">{{ $label }}</a>
+                @foreach ($links as $link)
+                    <a href="{{ $link['href'] }}" @click="open = false" @class(['font-display text-xl uppercase', 'text-malbec' => $link['active']])>{{ $link['label'] }}</a>
                 @endforeach
                 <div class="flex items-center justify-between border-t border-line pt-5">
-                    <a href="{{ $isEnglish ? route('home') : route('home.en') }}" class="font-mono text-sm text-muted">{{ __('site.nav.switch') }}</a>
+                    <a href="{{ $switchUrl }}" class="font-mono text-sm text-muted">{{ __('site.nav.switch') }}</a>
                     <a href="#contacto" @click="open = false" class="btn btn-primary !px-4 !py-2.5">{{ __('site.nav.contact') }}</a>
                 </div>
             </div>

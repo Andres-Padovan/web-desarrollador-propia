@@ -82,6 +82,15 @@ return [
         'empty_title' => 'Estoy preparando esta sección',
         'empty_text' => 'Mientras tanto, mirá mi actividad en GitHub o pedime ejemplos por WhatsApp.',
         'github' => 'Ver GitHub',
+        'view_all' => 'Ver los :count proyectos',
+        'details' => 'Ver proyecto',
+        'back' => 'Todos los proyectos',
+        'all_projects' => 'Ver todos',
+        'more_a' => 'Otros',
+        'more_b' => 'proyectos.',
+        'stack_label' => 'Tecnologías',
+        'want_one' => 'Quiero algo así',
+        'private_note' => 'Código privado por acuerdo con el cliente',
         'status' => ['live' => 'Online', 'beta' => 'Beta', 'wip' => 'En desarrollo', 'archived' => 'Archivado'],
     ],
     'process' => [
@@ -149,6 +158,22 @@ return [
         'made' => 'Hecho con Laravel, Filament y mucho café en Mendoza.',
         'nav' => 'Navegación',
         'social' => 'Redes',
+    ],
+    'explore' => [
+        'eyebrow' => 'más',
+        'title_a' => 'Conocé',
+        'title_b' => 'el resto.',
+        'items' => [
+            'services' => 'Sitios web, sistemas de gestión, integraciones y automatizaciones: qué hago y con qué herramientas.',
+            'process' => 'De la primera charla a producción: cómo trabajo para que siempre sepas en qué punto está tu proyecto.',
+            'about' => 'Quién soy, mi formación y cómo trabajo desde San Martín, Mendoza, para cualquier lugar.',
+        ],
+    ],
+    'pages' => [
+        'projects' => ['title' => 'Proyectos · Andrés Padovan', 'description' => 'Sitios web, tiendas online, apps y sistemas de gestión que desarrollé para clientes de Mendoza y otros lugares, con su recorrido en video.'],
+        'services' => ['title' => 'Servicios · Andrés Padovan', 'description' => 'Desarrollo web a medida, sistemas de gestión, integraciones y automatizaciones con Laravel. Del análisis a producción.'],
+        'process' => ['title' => 'Cómo trabajo · Andrés Padovan', 'description' => 'Escucho, analizo, desarrollo con entregas cortas y acompaño después de publicar. Así trabajo cada proyecto.'],
+        'about' => ['title' => 'Sobre mí · Andrés Padovan', 'description' => 'Analista y programador de sistemas en San Martín, Mendoza, con 7 años de experiencia en software a medida.'],
     ],
     'whatsapp_message' => 'Hola Andrés, vi tu web y quiero contarte sobre un proyecto.',
     'intro' => [

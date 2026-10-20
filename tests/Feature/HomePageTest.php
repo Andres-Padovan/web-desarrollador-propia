@@ -3,7 +3,6 @@
 namespace Tests\Feature;
 
 use App\Models\Project;
-use App\Models\Service;
 use App\Models\Testimonial;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -14,7 +13,6 @@ class HomePageTest extends TestCase
 
     public function test_spanish_home_renders_profile_and_published_content(): void
     {
-        Service::factory()->create(['title' => ['es' => 'Servicio visible', 'en' => 'Visible service']]);
         Project::factory()->create(['title' => ['es' => 'Proyecto público', 'en' => 'Public project']]);
         Project::factory()->create(['title' => ['es' => 'Proyecto oculto', 'en' => 'Hidden project'], 'is_visible' => false]);
 
@@ -22,7 +20,6 @@ class HomePageTest extends TestCase
             ->assertOk()
             ->assertSee('<html lang="es"', false)
             ->assertSee('Andrés Padovan')
-            ->assertSee('Servicio visible')
             ->assertSee('Proyecto público')
             ->assertDontSee('Proyecto oculto')
             ->assertSee('wa.me/5492634625076', false)

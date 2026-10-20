@@ -18,10 +18,9 @@
 
             <nav class="flex flex-col gap-3" aria-label="{{ __('site.footer.nav') }}">
                 <p class="font-mono text-[11px] tracking-[0.2em] text-dim uppercase">{{ __('site.footer.nav') }}</p>
-                <a href="#servicios" class="text-muted transition hover:text-fg">{{ __('site.nav.services') }}</a>
-                <a href="#proyectos" class="text-muted transition hover:text-fg">{{ __('site.nav.projects') }}</a>
-                <a href="#proceso" class="text-muted transition hover:text-fg">{{ __('site.nav.process') }}</a>
-                <a href="#sobre-mi" class="text-muted transition hover:text-fg">{{ __('site.nav.about') }}</a>
+                @foreach (['services', 'projects', 'process', 'about'] as $page)
+                    <a href="{{ \App\Support\LocalizedRoute::to($page) }}" class="text-muted transition hover:text-fg">{{ __('site.nav.'.$page) }}</a>
+                @endforeach
                 <a href="#contacto" class="text-muted transition hover:text-fg">{{ __('site.nav.contact') }}</a>
             </nav>
 
@@ -30,7 +29,7 @@
                 <a href="{{ $profile['linkedin'] }}" target="_blank" rel="noopener" class="inline-flex items-center gap-2 text-muted transition hover:text-fg"><x-brand-icon name="linkedin" class="size-4" /> LinkedIn</a>
                 <a href="{{ $profile['github'] }}" target="_blank" rel="noopener" class="inline-flex items-center gap-2 text-muted transition hover:text-fg"><x-brand-icon name="github" class="size-4" /> GitHub</a>
                 <a href="https://wa.me/{{ $profile['whatsapp'] }}" target="_blank" rel="noopener" class="inline-flex items-center gap-2 text-muted transition hover:text-fg"><x-brand-icon name="whatsapp" class="size-4" /> WhatsApp</a>
-                <a href="{{ $isEnglish ? route('home') : route('home.en') }}" class="mt-2 font-mono text-xs text-malbec">{{ __('site.nav.switch') }} →</a>
+                <a href="{{ \App\Support\LocalizedRoute::alternate() }}" class="mt-2 font-mono text-xs text-malbec">{{ __('site.nav.switch') }} →</a>
             </div>
         </div>
 

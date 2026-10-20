@@ -3,24 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Models\Project;
-use App\Models\Service;
 use App\Models\Testimonial;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
 use Illuminate\View\View;
 
 class HomeController extends Controller
 {
-    public function __invoke(Request $request, string $locale): View
+    /** Portada corta: lo mejor de cada sección, con links a sus páginas. */
+    public function __invoke(): View
     {
-        App::setLocale($locale);
-
         $projects = Project::published()->get();
 
         return view('home', [
-            'services' => Service::published()->get(),
-            'projects' => $projects,
-            'categories' => $projects->map(fn (Project $project) => $project->localized('category'))->filter()->unique()->values(),
+            'projects' => $projects->take(3),
+            'projectsCount' => $projects->count(),
             'testimonials' => Testimonial::published()->get(),
         ]);
     }
