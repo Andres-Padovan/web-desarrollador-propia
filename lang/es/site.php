@@ -76,6 +76,7 @@ return [
         'view' => 'Ver sitio',
         'code' => 'Código',
         'private' => 'Privado',
+        'video' => 'Ver recorrido',
         'next_title' => 'Tu proyecto puede ser el próximo.',
         'next_text' => 'Contame la idea y la convertimos en algo que funcione en producción.',
         'empty_title' => 'Estoy preparando esta sección',

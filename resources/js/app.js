@@ -176,6 +176,26 @@ Alpine.data('clock', (timezone) => ({
     },
 }));
 
+/*
+ * Video de recorrido en las tarjetas de proyectos: se reproduce al pasar el mouse. En pantallas
+ * táctiles (sin hover) arranca solo cuando la tarjeta está bien visible.
+ */
+Alpine.data('projectVideo', () => ({
+    playing: false,
+    init() {
+        if (prefersReducedMotion || window.matchMedia('(hover: hover)').matches) return;
+        new IntersectionObserver(([entry]) => (entry.isIntersecting ? this.play() : this.pause()), { threshold: 0.6 }).observe(this.$el);
+    },
+    play() {
+        if (prefersReducedMotion) return;
+        this.$refs.video.play().then(() => (this.playing = true)).catch(() => {});
+    },
+    pause() {
+        this.$refs.video.pause();
+        this.playing = false;
+    },
+}));
+
 Alpine.data('copy', (value) => ({
     copied: false,
     async copy() {

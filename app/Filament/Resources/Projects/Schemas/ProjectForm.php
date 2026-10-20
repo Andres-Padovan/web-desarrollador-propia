@@ -32,6 +32,9 @@ class ProjectForm
                         TagsInput::make('stack')->label('Tecnologías')->placeholder('Laravel, Vue…'),
                         FileUpload::make('image')->label('Captura o portada')->image()->disk('public')->directory('projects')->imageEditor()
                             ->helperText('Opcional. Si no subís imagen, se genera una portada estilo editor de código.'),
+                        FileUpload::make('video')->label('Video de recorrido')->disk('public')->directory('projects/videos')
+                            ->acceptedFileTypes(['video/mp4', 'video/webm'])->maxSize(20480)
+                            ->helperText('Opcional. MP4 o WebM corto, sin sonido. Se reproduce al pasar el mouse por la tarjeta.'),
                     ]),
                 Section::make('Publicación')
                     ->columnSpan(1)

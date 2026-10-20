@@ -40,6 +40,19 @@ class HomePageTest extends TestCase
             ->assertSee('Solo en español');
     }
 
+    public function test_project_tour_video_is_served_from_bundled_and_uploaded_paths(): void
+    {
+        Project::factory()->create(['image' => 'images/proyectos/demo.webp', 'video' => 'videos/proyectos/demo.mp4']);
+        Project::factory()->create(['video' => 'projects/videos/subido.mp4']);
+
+        $this->get(route('home'))
+            ->assertOk()
+            ->assertSee(asset('videos/proyectos/demo.mp4'), false)
+            ->assertSee('poster="'.asset('images/proyectos/demo.webp').'"', false)
+            ->assertSee('/storage/projects/videos/subido.mp4', false)
+            ->assertSee('Ver recorrido');
+    }
+
     public function test_testimonials_section_only_appears_when_there_are_reviews(): void
     {
         $this->get(route('home'))->assertDontSee('id="resenas"', false);

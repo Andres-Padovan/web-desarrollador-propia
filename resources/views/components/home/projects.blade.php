@@ -30,6 +30,7 @@
                         $url = $project->primaryUrl();
                     @endphp
                     <article class="spotlight group flex flex-col overflow-hidden rounded-2xl border border-line bg-panel transition duration-500 hover:-translate-y-1.5"
+                             @if ($project->videoUrl()) x-data="projectVideo" @mouseenter="play()" @mouseleave="pause()" @endif
                              x-show="filter === 'all' || filter === @js($project->localized('category'))"
                              x-transition:enter="transition duration-500" x-transition:enter-start="opacity-0 scale-95"
                              data-reveal data-delay="{{ ($index % 3) * 120 }}">
@@ -39,7 +40,23 @@
                             @if ($project->imageUrl())
                                 <img src="{{ $project->imageUrl() }}" alt="{{ $project->localized('title') }}" loading="lazy"
                                      class="size-full object-cover object-top transition duration-700 group-hover:scale-105">
-                            @else
+                            @endif
+                            @if ($project->videoUrl())
+                                {{-- Recorrido del sitio: se reproduce al pasar el mouse (o al verse en pantalla en celulares) --}}
+                                <video x-ref="video" @if ($project->imageUrl()) poster="{{ $project->imageUrl() }}" @endif
+                                       muted loop playsinline preload="none" aria-hidden="true"
+                                       class="absolute inset-0 z-10 size-full object-cover object-top opacity-0 transition-opacity duration-500"
+                                       :class="playing && 'opacity-100'">
+                                    @foreach ($project->videoSources() as $source => $type)
+                                        <source src="{{ $source }}" type="{{ $type }}">
+                                    @endforeach
+                                </video>
+                                <span class="absolute bottom-3 left-3 z-10 inline-flex items-center gap-1.5 rounded-sm border border-line bg-ink/80 px-2 py-1 font-mono text-[10px] tracking-widest text-fg uppercase backdrop-blur transition duration-300"
+                                      :class="playing && 'opacity-0'">
+                                    <x-heroicon-m-play class="size-3 text-malbec" /> {{ __('site.projects.video') }}
+                                </span>
+                            @endif
+                            @if (! $project->imageUrl())
                                 {{-- Portada generada: ventana de editor con el nombre del proyecto --}}
                                 <div class="absolute inset-0 opacity-70" style="background: radial-gradient(circle at 80% 0%, {{ $accent }}44, transparent 55%)"></div>
                                 <div class="absolute inset-x-6 top-6 bottom-0 rounded-t-lg border border-b-0 border-line bg-night/90 p-4 font-mono text-[11px] leading-relaxed transition duration-700 group-hover:translate-y-[-6px]">

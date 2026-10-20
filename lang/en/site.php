@@ -76,6 +76,7 @@ return [
         'view' => 'Visit site',
         'code' => 'Code',
         'private' => 'Private',
+        'video' => 'Watch tour',
         'next_title' => 'Your project could be next.',
         'next_text' => 'Tell me the idea and we will turn it into something running in production.',
         'empty_title' => 'This section is on its way',
