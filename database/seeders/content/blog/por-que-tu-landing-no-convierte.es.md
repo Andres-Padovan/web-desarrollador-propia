@@ -1,6 +1,6 @@
 ---
-title: "Por qué tu landing page no convierte (y qué cambiar primero)"
-excerpt: "Tu página tiene visitas pero casi nadie te escribe. Te muestro qué revisar, en qué orden, y qué cambios simples suelen destrabar las consultas."
+title: "Tu página tiene visitas pero nadie te escribe: qué revisar primero"
+excerpt: "Muchas visitas y pocas consultas casi siempre tiene arreglo. Te muestro qué revisar, en qué orden, y qué cambios simples hacen que la gente te escriba."
 ---
 Tenés una página para tu negocio, la gente entra, pero los mensajes no llegan. O llegan pocos. Antes de pensar en rehacer todo o en pagar más publicidad, conviene hacer un diagnóstico ordenado. Casi siempre el problema está en pocas cosas concretas.
 
@@ -115,4 +115,4 @@ Si tenés poco tiempo, seguí este orden:
 
 ## Si querés una segunda mirada
 
-A veces cuesta ver los problemas de la página propia porque uno ya sabe todo lo que dice. Si querés, puedo revisar tu landing y decirte qué cambiaría primero, en qué orden y por qué. Escribime y lo vemos.
+A veces cuesta ver los problemas de la página propia porque uno ya sabe todo lo que dice. Si querés, puedo revisar tu página y decirte qué cambiaría primero, en qué orden y por qué. Escribime y lo vemos.

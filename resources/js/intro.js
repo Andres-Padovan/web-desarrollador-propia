@@ -39,7 +39,7 @@ export function startIntro() {
     let shapeChangedAt = 0;
 
     const brand = (name, fallback) => getComputedStyle(document.documentElement).getPropertyValue(`--color-${name}`).trim() || fallback;
-    const colors = { fg: brand('fg', '#f3f1f7'), malbec: brand('malbec', '#ff3d7f'), sun: brand('sun', '#ffb43e') };
+    const colors = { fg: brand('fg', '#f3f1f7'), malbec: brand('malbec', '#b57bff'), sun: brand('sun', '#ffb43e') };
 
     html.style.overflow = 'hidden';
 
