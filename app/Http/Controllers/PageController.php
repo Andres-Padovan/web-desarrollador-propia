@@ -31,7 +31,9 @@ class PageController extends Controller
 
     public function services(): View
     {
-        return view('pages.services', ['services' => Service::published()->get()]);
+        return view('pages.services', [
+            'groups' => Service::published()->get()->groupBy('group')->sortBy(fn ($services, string $group) => array_search($group, array_keys(Service::GROUPS))),
+        ]);
     }
 
     public function process(): View
@@ -41,6 +43,9 @@ class PageController extends Controller
 
     public function about(): View
     {
-        return view('pages.about', ['testimonials' => Testimonial::published()->get()]);
+        return view('pages.about', [
+            'testimonials' => Testimonial::published()->get(),
+            'projects' => Project::published()->get(),
+        ]);
     }
 }

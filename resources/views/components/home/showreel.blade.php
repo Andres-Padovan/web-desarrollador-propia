@@ -43,7 +43,7 @@
         {{-- Laptop --}}
         <div class="showreel-stage relative z-10 w-[min(92vw,58rem)] max-md:-mt-[18vh] lg:w-[min(52vw,58rem)]" style="perspective: 1600px">
             <div class="showreel-laptop" style="transform-origin: 50% 100%">
-                <div class="rounded-t-[1.4rem] border border-line bg-[#0c0c11] p-[1.6%] shadow-[0_40px_120px_-30px_rgba(255,61,127,0.45)]">
+                <div class="rounded-t-[1.4rem] border border-line bg-[#0c0c11] p-[1.6%] shadow-[0_40px_120px_-30px_color-mix(in_oklab,var(--color-malbec)_45%,transparent)]">
                     <div class="relative aspect-[16/10] overflow-hidden rounded-md bg-night">
                         {{-- Capa 1: editor --}}
                         <div class="showreel-editor absolute inset-0 flex flex-col">

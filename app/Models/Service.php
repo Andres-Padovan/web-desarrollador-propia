@@ -9,18 +9,25 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-#[Fillable(['title', 'description', 'stack', 'icon', 'span', 'is_visible', 'sort'])]
+#[Fillable(['group', 'title', 'description', 'details', 'includes', 'delivery', 'stack', 'icon', 'is_highlighted', 'is_visible', 'sort'])]
 class Service extends Model
 {
     /** @use HasFactory<ServiceFactory> */
     use HasFactory, HasLocalizedFields;
+
+    /** Tabs of the services page, in order. Labels live in lang/{es,en}/site.php under services.groups. */
+    public const GROUPS = ['sites' => 'Sitios y tiendas', 'systems' => 'Sistemas y apps', 'ai' => 'IA y automatización', 'care' => 'Acompañamiento'];
 
     protected function casts(): array
     {
         return [
             'title' => 'array',
             'description' => 'array',
+            'details' => 'array',
+            'includes' => 'array',
+            'delivery' => 'array',
             'stack' => 'array',
+            'is_highlighted' => 'boolean',
             'is_visible' => 'boolean',
         ];
     }

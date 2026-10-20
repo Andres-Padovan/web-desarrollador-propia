@@ -16,14 +16,14 @@ class ProjectSeeder extends Seeder
         Project::updateOrCreate(['slug' => 'web-desarrollador-propia'], [
             'title' => ['es' => 'Portfolio personal', 'en' => 'Personal portfolio'],
             'summary' => [
-                'es' => 'Este sitio: terminal interactiva, español e inglés, panel de administración y proyectos sincronizados desde GitHub.',
-                'en' => 'This site: interactive terminal, Spanish and English, admin panel and projects synced from GitHub.',
+                'es' => 'Este mismo sitio: intro animada, terminal que responde comandos, paquetes de servicios, blog, versión en inglés y un panel propio para actualizar todo.',
+                'en' => 'This very site: animated intro, a terminal that answers commands, service packages, a blog, an English version and its own admin panel to update everything.',
             ],
             'category' => ['es' => 'Sitio web', 'en' => 'Website'],
             'stack' => ['Laravel', 'Filament', 'Livewire', 'Tailwind'],
             'status' => 'live',
             'repo_url' => 'https://github.com/Andres-Padovan/web-desarrollador-propia',
-            'accent' => '#ff3d7f',
+            'accent' => null,
             'language' => 'PHP',
             'is_private' => true,
             'is_featured' => true,

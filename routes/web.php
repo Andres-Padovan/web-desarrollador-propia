@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\SitemapController;
 use App\Http\Middleware\SetLocaleFromRoute;
 use Illuminate\Support\Facades\Route;
@@ -11,8 +12,8 @@ use Illuminate\Support\Facades\Route;
  * Los links se arman con App\Support\LocalizedRoute.
  */
 $pages = [
-    'es' => ['projects' => 'proyectos', 'services' => 'servicios', 'process' => 'proceso', 'about' => 'sobre-mi'],
-    'en' => ['projects' => 'projects', 'services' => 'services', 'process' => 'process', 'about' => 'about'],
+    'es' => ['projects' => 'proyectos', 'services' => 'servicios', 'process' => 'proceso', 'about' => 'sobre-mi', 'blog' => 'blog'],
+    'en' => ['projects' => 'projects', 'services' => 'services', 'process' => 'process', 'about' => 'about', 'blog' => 'blog'],
 ];
 
 foreach ($pages as $locale => $paths) {
@@ -27,6 +28,8 @@ foreach ($pages as $locale => $paths) {
             Route::get($paths['services'], [PageController::class, 'services'])->defaults('locale', $locale)->name('services'.$suffix);
             Route::get($paths['process'], [PageController::class, 'process'])->defaults('locale', $locale)->name('process'.$suffix);
             Route::get($paths['about'], [PageController::class, 'about'])->defaults('locale', $locale)->name('about'.$suffix);
+            Route::get($paths['blog'], [PostController::class, 'index'])->defaults('locale', $locale)->name('blog'.$suffix);
+            Route::get($paths['blog'].'/{post:slug}', [PostController::class, 'show'])->defaults('locale', $locale)->name('post'.$suffix);
         });
 }
 

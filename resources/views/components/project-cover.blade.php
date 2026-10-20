@@ -1,11 +1,11 @@
 @props(['project'])
 
 @php
-    $accent = $project->accent ?: '#ff3d7f';
+    $accent = $project->accent ?: 'var(--color-malbec)';
 @endphp
 
 {{-- Portada generada cuando el proyecto no tiene imagen: ventana de editor con el nombre del proyecto --}}
-<div class="absolute inset-0 opacity-70" style="background: radial-gradient(circle at 80% 0%, {{ $accent }}44, transparent 55%)"></div>
+<div class="absolute inset-0 opacity-70" style="background: radial-gradient(circle at 80% 0%, color-mix(in oklab, {{ $accent }} 27%, transparent), transparent 55%)"></div>
 <div class="absolute inset-x-6 top-6 bottom-0 rounded-t-lg border border-b-0 border-line bg-night/90 p-4 font-mono text-[11px] leading-relaxed transition duration-700 group-hover:translate-y-[-6px]">
     <div class="mb-3 flex gap-1.5"><span class="size-2 rounded-full bg-line"></span><span class="size-2 rounded-full bg-line"></span><span class="size-2 rounded-full bg-line"></span></div>
     <p class="text-dim">// {{ $project->language ?: 'project' }}</p>

@@ -52,6 +52,7 @@
     <meta name="twitter:image" content="{{ $ogImage }}">
 
     <script type="application/ld+json">{!! json_encode($person, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG) !!}</script>
+    @stack('head')
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles

@@ -19,8 +19,34 @@ class PagesTest extends TestCase
         $this->get('/en/services')->assertOk()->assertSee('<html lang="en"', false)->assertSee('Management systems');
         $this->get('/proceso')->assertOk()->assertSee('id="proceso"', false);
         $this->get('/en/process')->assertOk()->assertSee('id="proceso"', false);
-        $this->get('/sobre-mi')->assertOk()->assertSee('id="sobre-mi"', false);
-        $this->get('/en/about')->assertOk()->assertSee('id="sobre-mi"', false);
+        $this->get('/sobre-mi')->assertOk()->assertSee('soy Andrés.')->assertSee('sobre-mi.ts');
+        $this->get('/en/about')->assertOk()->assertSee("I'm Andrés.")->assertSee('about.ts');
+        $this->get('/blog')->assertOk()->assertSee('Ideas para');
+        $this->get('/en/blog')->assertOk()->assertSee('Ideas for');
+    }
+
+    public function test_services_page_groups_packages_in_tabs_with_what_they_include(): void
+    {
+        Service::factory()->create([
+            'group' => 'ai',
+            'title' => ['es' => 'Asistente con IA', 'en' => 'AI assistant'],
+            'includes' => ['es' => ['Panel con todas las conversaciones'], 'en' => ['Conversation dashboard']],
+            'delivery' => ['es' => '2 a 4 semanas', 'en' => '2 to 4 weeks'],
+            'is_highlighted' => true,
+        ]);
+        Service::factory()->create(['group' => 'sites', 'title' => ['es' => 'Landing page', 'en' => 'Landing page']]);
+        Service::factory()->create(['title' => ['es' => 'Paquete oculto', 'en' => 'Hidden package'], 'is_visible' => false]);
+
+        $this->get('/servicios')
+            ->assertOk()
+            ->assertSeeInOrder(['Sitios y tiendas', 'IA y automatización', 'Landing page', 'Asistente con IA'])
+            ->assertSee('Panel con todas las conversaciones')
+            ->assertSee('2 a 4 semanas')
+            ->assertSee('El más pedido')
+            ->assertSee(rawurlencode('"Asistente con IA"'), false)
+            ->assertDontSee('Paquete oculto');
+
+        $this->get('/en/services')->assertOk()->assertSee('Conversation dashboard')->assertSee('2 to 4 weeks');
     }
 
     public function test_home_shows_three_projects_and_links_to_the_full_list(): void
@@ -62,6 +88,7 @@ class PagesTest extends TestCase
         $this->get(route('sitemap'))
             ->assertOk()
             ->assertSee(url('/en/services'), false)
-            ->assertSee(url('/proyectos/estudio-brillo'), false);
+            ->assertSee(url('/proyectos/estudio-brillo'), false)
+            ->assertSee(url('/en/blog'), false);
     }
 }

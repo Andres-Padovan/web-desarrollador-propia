@@ -38,7 +38,8 @@ export function startIntro() {
     let bounds = { top: 0, height: 1, cx: 0, cy: 0 };
     let shapeChangedAt = 0;
 
-    const colors = { fg: '#f3f1f7', malbec: '#ff3d7f', sun: '#ffb43e' };
+    const brand = (name, fallback) => getComputedStyle(document.documentElement).getPropertyValue(`--color-${name}`).trim() || fallback;
+    const colors = { fg: brand('fg', '#f3f1f7'), malbec: brand('malbec', '#ff3d7f'), sun: brand('sun', '#ffb43e') };
 
     html.style.overflow = 'hidden';
 

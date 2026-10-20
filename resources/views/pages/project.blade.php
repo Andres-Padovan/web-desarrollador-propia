@@ -1,12 +1,12 @@
 @php
     $title = $project->localized('title');
-    $accent = $project->accent ?: '#ff3d7f';
+    $accent = $project->accent ?: 'var(--color-malbec)';
 @endphp
 
 <x-layouts.site :title="$title.' · '.config('profile.name')" :description="$project->localized('summary')">
     <section class="relative overflow-hidden pt-32 pb-20 sm:pt-40 sm:pb-28">
         <div class="grid-bg pointer-events-none absolute inset-0"></div>
-        <div class="pointer-events-none absolute -top-40 right-0 h-[520px] w-[720px] rounded-full blur-[150px]" style="background: {{ $accent }}33"></div>
+        <div class="pointer-events-none absolute -top-40 right-0 h-[520px] w-[720px] rounded-full blur-[150px]" style="background: color-mix(in oklab, {{ $accent }} 20%, transparent)"></div>
 
         <div class="container-site relative flex flex-col gap-12">
             <a href="{{ \App\Support\LocalizedRoute::to('projects') }}" class="inline-flex items-center gap-2 self-start font-mono text-xs tracking-widest text-muted uppercase transition hover:gap-3 hover:text-malbec" data-reveal>
@@ -48,7 +48,7 @@
 
                 {{-- El recorrido en grande, en una ventana de navegador --}}
                 <div class="overflow-hidden rounded-xl border border-line bg-night shadow-[0_40px_120px_-40px_rgba(0,0,0,0.9)]" data-reveal data-delay="200"
-                     style="box-shadow: 0 40px 120px -40px {{ $accent }}66">
+                     style="box-shadow: 0 40px 120px -40px color-mix(in oklab, {{ $accent }} 40%, transparent)">
                     <div class="flex items-center gap-2 border-b border-line bg-panel px-4 py-3">
                         <span class="size-2.5 rounded-full bg-[#ff5f57]"></span>
                         <span class="size-2.5 rounded-full bg-[#febc2e]"></span>

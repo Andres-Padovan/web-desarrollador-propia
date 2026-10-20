@@ -15,7 +15,7 @@
 
             @foreach ($steps as $index => $step)
                 <li class="relative flex flex-col gap-3" data-reveal data-delay="{{ $index * 80 }}">
-                    <span class="absolute top-1 -left-12 grid size-8 place-items-center rounded-full border border-malbec/60 bg-ink shadow-[0_0_24px_-4px_rgba(255,61,127,0.7)] sm:-left-16 sm:size-10">
+                    <span class="absolute top-1 -left-12 grid size-8 place-items-center rounded-full border border-malbec/60 bg-ink shadow-[0_0_24px_-4px_color-mix(in_oklab,var(--color-malbec)_70%,transparent)] sm:-left-16 sm:size-10">
                         <span class="size-2.5 rounded-full bg-malbec"></span>
                     </span>
                     <div class="flex items-center gap-4">

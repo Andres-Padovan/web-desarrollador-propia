@@ -1,7 +1,7 @@
 @props(['project', 'index' => 0, 'filterable' => false])
 
 @php
-    $accent = $project->accent ?: '#ff3d7f';
+    $accent = $project->accent ?: 'var(--color-malbec)';
     $detailUrl = \App\Support\LocalizedRoute::to('project', $project);
 @endphp
 

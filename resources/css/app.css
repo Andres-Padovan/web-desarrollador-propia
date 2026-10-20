@@ -105,7 +105,7 @@
     }
 
     .btn-primary {
-        @apply bg-malbec text-ink shadow-[0_0_0_0_rgba(255,61,127,0.5)] hover:shadow-[0_10px_40px_-8px_rgba(255,61,127,0.65)];
+        @apply bg-malbec text-ink shadow-[0_0_0_0_color-mix(in_oklab,var(--color-malbec)_50%,transparent)] hover:shadow-[0_10px_40px_-8px_color-mix(in_oklab,var(--color-malbec)_65%,transparent)];
     }
 
     .btn-primary::after {
@@ -143,7 +143,7 @@
         border-radius: inherit;
         opacity: 0;
         transition: opacity 0.4s ease;
-        background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), rgba(255, 61, 127, 0.14), transparent 60%);
+        background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), color-mix(in oklab, var(--color-malbec) 14%, transparent), transparent 60%);
     }
 
     .spotlight:hover::before {
@@ -156,7 +156,7 @@
         border-radius: inherit;
         pointer-events: none;
         padding: 1px;
-        background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), rgba(255, 61, 127, 0.9), transparent 70%);
+        background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), color-mix(in oklab, var(--color-malbec) 90%, transparent), transparent 70%);
         -webkit-mask:
             linear-gradient(#000 0 0) content-box,
             linear-gradient(#000 0 0);
@@ -339,4 +339,210 @@ html.has-intro [data-intro] {
 
 [x-cloak] {
     display: none !important;
+}
+
+/* Sobre mí: telón de entrada y editor que se completa con el scroll (ver aboutCode en resources/js/app.js). */
+.about-curtain {
+    position: fixed;
+    inset: 0;
+    z-index: 70;
+    pointer-events: none;
+    animation: curtain-gone 0s linear 2.1s forwards;
+}
+
+.about-curtain-panel {
+    position: absolute;
+    inset-block: 0;
+    width: 50.5%;
+    background: var(--color-ink);
+    animation: 1.15s cubic-bezier(0.77, 0, 0.18, 1) 0.8s forwards;
+}
+
+.about-curtain-left {
+    left: 0;
+    animation-name: curtain-left;
+    box-shadow: 1px 0 0 0 var(--color-malbec), 12px 0 50px -10px color-mix(in oklab, var(--color-malbec) 70%, transparent);
+}
+
+.about-curtain-right {
+    right: 0;
+    animation-name: curtain-right;
+}
+
+.about-curtain-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    white-space: nowrap;
+    animation: curtain-text 0.8s ease forwards;
+}
+
+.about-rise {
+    opacity: 0;
+    transform: translateY(42px);
+    animation: about-rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) calc(1.3s + var(--rise, 0) * 0.13s) forwards;
+}
+
+@keyframes curtain-left {
+    to {
+        transform: translateX(-102%);
+    }
+}
+
+@keyframes curtain-right {
+    to {
+        transform: translateX(102%);
+    }
+}
+
+@keyframes curtain-text {
+    0%,
+    70% {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+@keyframes curtain-gone {
+    to {
+        visibility: hidden;
+    }
+}
+
+@keyframes about-rise {
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+html.js .about-code .code-line {
+    max-width: calc(var(--typed, 0) * 1ch);
+}
+
+html.js .about-code .code-line.is-typing {
+    max-width: calc(var(--typed, 0) * 1ch + 0.8ch);
+}
+
+html.js .about-code .code-line.is-done {
+    max-width: calc(var(--chars) * 1ch);
+}
+
+html.js .about-code .code-line.is-done.is-typing {
+    max-width: calc(var(--chars) * 1ch + 0.8ch);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .about-curtain {
+        display: none;
+    }
+
+    .about-rise {
+        opacity: 1;
+        transform: none;
+        animation: none;
+    }
+}
+
+/* Cuerpo de los artículos del blog (Markdown convertido a HTML). */
+.prose-site {
+    font-size: 1.125rem;
+    line-height: 1.8;
+    color: color-mix(in oklab, var(--color-fg) 82%, var(--color-muted));
+
+    > * + * {
+        margin-top: 1.25em;
+    }
+
+    h2 {
+        margin-top: 2.2em;
+        font-family: var(--font-display);
+        font-size: 1.5rem;
+        font-weight: 700;
+        line-height: 1.2;
+        letter-spacing: -0.01em;
+        text-transform: uppercase;
+        color: var(--color-fg);
+    }
+
+    h2::before {
+        content: '## ';
+        font-family: var(--font-mono);
+        font-size: 0.8em;
+        color: var(--color-malbec);
+    }
+
+    h3 {
+        margin-top: 1.8em;
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: var(--color-fg);
+    }
+
+    strong {
+        font-weight: 600;
+        color: var(--color-fg);
+    }
+
+    a {
+        color: var(--color-malbec);
+        text-decoration: underline;
+        text-underline-offset: 3px;
+    }
+
+    ul,
+    ol {
+        padding-left: 1.4em;
+    }
+
+    ul {
+        list-style: none;
+    }
+
+    ul > li {
+        position: relative;
+    }
+
+    ul > li::before {
+        content: '→';
+        position: absolute;
+        left: -1.4em;
+        color: var(--color-malbec);
+        font-family: var(--font-mono);
+    }
+
+    ol {
+        list-style: decimal;
+    }
+
+    ol > li::marker {
+        font-family: var(--font-mono);
+        color: var(--color-malbec);
+    }
+
+    li + li {
+        margin-top: 0.55em;
+    }
+
+    blockquote {
+        border-left: 2px solid var(--color-malbec);
+        padding-left: 1.2em;
+        font-style: italic;
+        color: var(--color-muted);
+    }
+
+    code {
+        border-radius: 4px;
+        background: var(--color-panel-2);
+        padding: 0.15em 0.4em;
+        font-family: var(--font-mono);
+        font-size: 0.85em;
+    }
+
+    hr {
+        border-color: var(--color-line);
+    }
 }

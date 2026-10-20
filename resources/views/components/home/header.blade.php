@@ -2,10 +2,10 @@
 
 @php
     $isEnglish = app()->getLocale() === 'en';
-    $links = collect(['services', 'projects', 'process', 'about'])->map(fn (string $page) => [
+    $links = collect(['services', 'projects', 'process', 'about', 'blog'])->map(fn (string $page) => [
         'href' => \App\Support\LocalizedRoute::to($page),
         'label' => __('site.nav.'.$page),
-        'active' => \App\Support\LocalizedRoute::is($page) || ($page === 'projects' && \App\Support\LocalizedRoute::is('project')),
+        'active' => \App\Support\LocalizedRoute::is($page) || ($page === 'projects' && \App\Support\LocalizedRoute::is('project')) || ($page === 'blog' && \App\Support\LocalizedRoute::is('post')),
     ]);
     $switchUrl = \App\Support\LocalizedRoute::alternate();
 @endphp

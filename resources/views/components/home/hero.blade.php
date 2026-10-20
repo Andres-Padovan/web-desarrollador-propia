@@ -24,6 +24,7 @@
             'services' => \App\Support\LocalizedRoute::to('services'),
             'projects' => \App\Support\LocalizedRoute::to('projects'),
             'process' => \App\Support\LocalizedRoute::to('process'),
+            'blog' => \App\Support\LocalizedRoute::to('blog'),
         ],
     ];
     $prompt = $profile['handle'].'@mendoza';
@@ -65,7 +66,7 @@
             </div>
 
             {{-- Terminal interactiva --}}
-            <div class="overflow-hidden rounded-xl border border-line bg-night/90 shadow-[0_40px_120px_-40px_rgba(255,61,127,0.35)] backdrop-blur" data-reveal data-delay="300"
+            <div class="overflow-hidden rounded-xl border border-line bg-night/90 shadow-[0_40px_120px_-40px_color-mix(in_oklab,var(--color-malbec)_35%,transparent)] backdrop-blur" data-reveal data-delay="300"
                  x-data="terminal(@js($terminal))" @click="focusInput()">
                 <div class="flex items-center gap-2 border-b border-line bg-panel px-4 py-3">
                     <span class="size-3 rounded-full bg-[#ff5f57]"></span>

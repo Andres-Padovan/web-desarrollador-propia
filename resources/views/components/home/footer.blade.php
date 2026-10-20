@@ -18,7 +18,7 @@
 
             <nav class="flex flex-col gap-3" aria-label="{{ __('site.footer.nav') }}">
                 <p class="font-mono text-[11px] tracking-[0.2em] text-dim uppercase">{{ __('site.footer.nav') }}</p>
-                @foreach (['services', 'projects', 'process', 'about'] as $page)
+                @foreach (['services', 'projects', 'process', 'about', 'blog'] as $page)
                     <a href="{{ \App\Support\LocalizedRoute::to($page) }}" class="text-muted transition hover:text-fg">{{ __('site.nav.'.$page) }}</a>
                 @endforeach
                 <a href="#contacto" class="text-muted transition hover:text-fg">{{ __('site.nav.contact') }}</a>

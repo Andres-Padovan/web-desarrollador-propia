@@ -101,6 +101,7 @@ Alpine.data('terminal', (config) => ({
             projects: () => scrollTo('proyectos', '→ ./projects', 'projects'),
             proceso: () => scrollTo('proceso', '→ ./proceso', 'process'),
             process: () => scrollTo('proceso', '→ ./process', 'process'),
+            blog: () => scrollTo('blog', '→ ./blog', 'blog'),
             contacto: () => scrollTo('contacto', config.messages.contact),
             contact: () => scrollTo('contacto', config.messages.contact),
             whatsapp: () => go(config.links.whatsapp, 'WhatsApp'),
@@ -110,7 +111,7 @@ Alpine.data('terminal', (config) => ({
             en: () => (window.location.href = config.links.en),
             es: () => (window.location.href = config.links.es),
             whoami: () => say(config.sequence[0].out[0]),
-            ls: () => say('servicios/  proyectos/  proceso/  sobre-mi/  contacto/'),
+            ls: () => say('servicios/  proyectos/  proceso/  sobre-mi/  blog/  contacto/'),
             date: () => say(new Date().toLocaleString(document.documentElement.lang, { timeZone: config.timezone })),
             clear: () => (this.lines = []),
             'sudo contratar': () => say(config.messages.hire),
@@ -220,6 +221,64 @@ Alpine.data('copy', (value) => ({
         } catch {
             window.getSelection()?.selectAllChildren(this.$refs.value);
         }
+    },
+}));
+
+/*
+ * Sobre mí: el editor lateral se completa por bloques. En pantallas grandes cada bloque se escribe
+ * cuando aparece su sección; en el celular se escribe entero apenas el editor entra en pantalla.
+ */
+Alpine.data('aboutCode', () => ({
+    target: -1,
+    written: -1,
+    running: false,
+
+    init() {
+        this.blocks = [...this.$el.querySelectorAll('[data-code-block]')].map((block) => [...block.querySelectorAll('.code-line')]);
+        if (prefersReducedMotion) {
+            this.blocks.flat().forEach((line) => line.classList.add('is-done'));
+            return;
+        }
+
+        const curtainOpen = sleep(document.querySelector('.about-curtain') ? 1500 : 0);
+        const reach = (step) => {
+            this.target = Math.max(this.target, step);
+            curtainOpen.then(() => this.write());
+        };
+
+        if (window.matchMedia('(min-width: 1024px)').matches) {
+            const observer = new IntersectionObserver(
+                (entries) => entries.forEach((entry) => entry.isIntersecting && reach(Number(entry.target.dataset.codeStep))),
+                { rootMargin: '0px 0px -35% 0px' },
+            );
+            this.$el.querySelectorAll('[data-code-step]').forEach((section) => observer.observe(section));
+        } else {
+            new IntersectionObserver(([entry]) => entry.isIntersecting && reach(this.blocks.length - 1), { threshold: 0.2 }).observe(this.$refs.editor);
+        }
+    },
+
+    async write() {
+        if (this.running) return;
+        this.running = true;
+        while (this.written < this.target) {
+            this.written++;
+            for (const line of this.blocks[this.written]) await this.type(line);
+        }
+        this.running = false;
+    },
+
+    async type(line) {
+        this.$el.querySelectorAll('.about-code .is-typing').forEach((typing) => typing.classList.remove('is-typing'));
+        line.classList.add('is-typing');
+        const chars = Number(line.style.getPropertyValue('--chars'));
+        // Si el visitante bajó rápido y hay bloques pendientes, escribe más ligero para alcanzarlo.
+        const behind = this.target - this.written;
+        for (let typed = 1; typed <= chars; typed++) {
+            line.style.setProperty('--typed', typed);
+            await sleep(behind > 0 ? 6 : 16 + Math.random() * 22);
+        }
+        line.classList.add('is-done');
+        await sleep(behind > 0 ? 20 : 80);
     },
 }));
 
