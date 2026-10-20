@@ -19,7 +19,8 @@
          :class="scrolled ? 'max-w-6xl px-3 sm:px-6' : 'max-w-7xl px-0'">
         <nav class="flex h-16 items-center justify-between gap-6 px-5 transition-all duration-500 sm:px-8"
              :class="scrolled ? 'rounded-full border border-line/80 bg-night/75 shadow-[0_20px_60px_-25px_rgba(0,0,0,0.8)] backdrop-blur-xl' : 'border border-transparent'">
-            <a href="{{ $isEnglish ? route('home.en') : route('home') }}" class="group flex items-center gap-2.5" aria-label="Andrés Padovan">
+            <a href="{{ $isEnglish ? route('home.en') : route('home') }}" class="group flex items-center gap-2.5" aria-label="Andrés Padovan"
+               onclick="try { sessionStorage.setItem('intro-replay', '1') } catch (error) {}">
                 <x-brand-logo class="h-7 w-auto text-fg transition duration-300 group-hover:-translate-y-0.5" />
                 <span class="font-mono text-sm font-semibold tracking-tight">andres<span class="text-malbec">.</span>dev<span class="animate-blink text-malbec">_</span></span>
             </a>

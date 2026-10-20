@@ -15,13 +15,16 @@
 
 {{--
     Entrada al abrir la web: miles de caracteres de código se juntan y escriben el nombre,
-    reaccionan al mouse y explotan al hacer scroll o clic. Una vez por visita (sessionStorage)
-    y nunca con "reducir movimiento". Sin JS no se muestra.
+    reaccionan al mouse y explotan al hacer scroll o clic. Aparece en la primera visita, al recargar la portada
+    y al tocar el logo; nunca con "reducir movimiento". Sin JS no se muestra.
 --}}
 <script>
     (() => {
         try {
-            if (sessionStorage.getItem('intro-seen') || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+            const reloaded = performance.getEntriesByType('navigation')[0]?.type === 'reload';
+            const fromLogo = sessionStorage.getItem('intro-replay');
+            sessionStorage.removeItem('intro-replay');
+            if ((sessionStorage.getItem('intro-seen') && !reloaded && !fromLogo) || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
         } catch (error) {
             return;
         }
