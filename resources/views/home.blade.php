@@ -9,6 +9,7 @@
 
     <main>
         <x-home.hero :profile="$profile" :whatsapp-url="$whatsappUrl" />
+        <x-home.showreel :profile="$profile" />
         <x-home.metrics :profile="$profile" :projects-count="$projects->count()" />
         <x-home.services :services="$services" />
         <x-home.projects :projects="$projects" :categories="$categories" :profile="$profile" />

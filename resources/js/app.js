@@ -251,6 +251,74 @@ const manifestoWords = manifesto ? [...manifesto.querySelectorAll('.word, .highl
 const processTrack = document.querySelector('[data-process-track]');
 const processLine = processTrack?.querySelector('[data-process-line]');
 
+const showreel = document.querySelector('[data-showreel]');
+const showreelParts = showreel && {
+    heading: showreel.querySelector('.showreel-heading'),
+    laptop: showreel.querySelector('.showreel-laptop'),
+    lines: [...showreel.querySelectorAll('.code-line')].map((line) => ({ line, length: Number(line.dataset.length) })),
+    steps: [...showreel.querySelectorAll('[data-step]')],
+    sites: [...showreel.querySelectorAll('[data-site]')].map((site) => ({ site, image: site.querySelector('img') })),
+};
+const clamp = (value) => Math.min(Math.max(value, 0), 1);
+const range = (value, from, to) => clamp((value - from) / (to - from));
+const smooth = (t) => t * t * (3 - 2 * t);
+
+/*
+ * Línea de tiempo de la escena (0 → 1 a lo largo de la sección):
+ * la laptop se abre, se escribe el código y la pantalla pasa por los sitios reales.
+ */
+const renderShowreel = () => {
+    const rect = showreel.getBoundingClientRect();
+    const progress = prefersReducedMotion ? 0.47 : clamp(-rect.top / (rect.height - window.innerHeight));
+    const { heading, laptop, lines, steps, sites } = showreelParts;
+
+    const open = smooth(range(progress, 0, 0.16));
+    const zoom = smooth(range(progress, 0.9, 1));
+    // En pantallas anchas la laptop se corre hacia el lado contrario del paso activo.
+    const shift = window.innerWidth >= 1024 ? smooth(range(progress, 0.12, 0.17)) * (1 - 2 * smooth(range(progress, 0.38, 0.42)) + 2 * smooth(range(progress, 0.66, 0.7))) * 11 : 0;
+    laptop.style.transform = `translate3d(${shift}vw, ${(1 - open) * 14}vh, 0) rotateX(${(1 - open) * 68}deg) scale(${0.72 + open * 0.28 + zoom * 0.08})`;
+    heading.style.opacity = 1 - range(progress, 0.05, 0.14);
+    heading.style.transform = `translateY(${-range(progress, 0.05, 0.14) * 40}px)`;
+
+    const total = lines.reduce((sum, { length }) => sum + length, 0);
+    let typed = Math.floor(range(progress, 0.15, 0.38) * total);
+    let caretPlaced = false;
+    lines.forEach(({ line, length }) => {
+        const chars = Math.min(typed, length);
+        typed -= chars;
+        line.style.setProperty('--chars', chars);
+        const typing = !caretPlaced && chars < length;
+        line.classList.toggle('is-typing', typing && progress > 0.15);
+        if (typing) caretPlaced = true;
+    });
+
+    const windows = [
+        [0.12, 0.4],
+        [0.4, 0.68],
+        [0.68, 1.01],
+    ];
+    steps.forEach((step, index) => {
+        const [from, to] = windows[index];
+        const visible = range(progress, from, from + 0.04) * (1 - range(progress, to - 0.04, to));
+        const side = index % 2 ? 1 : -1;
+        step.style.opacity = visible;
+        step.style.transform = `translate3d(${(1 - visible) * side * 60}px, ${window.innerWidth >= 1024 ? '-50%' : '0'}, 0)`;
+    });
+
+    const siteWindows = [
+        [0.4, 0.58],
+        [0.58, 0.74],
+        [0.74, 0.96],
+    ];
+    sites.forEach(({ site, image }, index) => {
+        const [from, to] = siteWindows[index];
+        site.style.opacity = range(progress, from, from + 0.035);
+        site.style.clipPath = `inset(${(1 - smooth(range(progress, from, from + 0.04))) * 100}% 0 0 0)`;
+        const overflow = image.offsetHeight - site.offsetHeight;
+        if (overflow > 0) image.style.transform = `translateY(${-smooth(range(progress, from + 0.03, to)) * overflow}px)`;
+    });
+};
+
 const sectionProgress = (element, start = 0.85, end = 0.35) => {
     const rect = element.getBoundingClientRect();
     const viewport = window.innerHeight;
@@ -269,6 +337,8 @@ const onScroll = () => {
         const lit = prefersReducedMotion ? manifestoWords.length : Math.round(sectionProgress(manifesto, 0.9, 0.55) * manifestoWords.length);
         manifestoWords.forEach((word, index) => word.classList.toggle('is-lit', index < lit));
     }
+
+    if (showreel) renderShowreel();
 
     if (processLine) {
         processLine.style.transform = `scaleY(${prefersReducedMotion ? 1 : sectionProgress(processTrack, 0.75, 0.5)})`;

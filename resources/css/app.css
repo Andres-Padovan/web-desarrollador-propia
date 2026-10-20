@@ -253,6 +253,46 @@ html.js [data-reveal].is-visible {
     }
 }
 
+/* Escena con scroll: laptop que escribe código y muestra los sitios (ver resources/js/app.js). */
+.code-line {
+    display: inline-block;
+    max-width: calc(var(--chars) * 1ch);
+    overflow: hidden;
+    white-space: pre;
+    vertical-align: top;
+}
+
+.code-line.is-typing::after {
+    content: '';
+    display: inline-block;
+    width: 0.55ch;
+    height: 1.1em;
+    margin-left: 1px;
+    vertical-align: -0.15em;
+    background: var(--color-malbec);
+    animation: blink 1.05s steps(1) infinite;
+}
+
+.code-line.is-typing {
+    max-width: calc(var(--chars) * 1ch + 0.8ch);
+}
+
+.showreel-step {
+    opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .showreel {
+        height: auto;
+    }
+
+    .showreel > div {
+        position: relative;
+        height: auto;
+        padding-block: 6rem;
+    }
+}
+
 /* Intro: retrato de código al abrir la web (ver resources/js/intro.js). */
 [data-intro] {
     display: none;
